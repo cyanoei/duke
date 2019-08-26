@@ -1,42 +1,46 @@
 public class Tasklist {
-    private String[] tasklist = new String[100];
-    private boolean[] donelist = new boolean[100];
+    private Task[] tasklist = new Task[100];
+    //private boolean[] donelist = new boolean[100];
     private int listIndex;
 
     public Tasklist() {
-        this.listIndex = 0;
+        this.listIndex = 1; //Easier to start from 1.
     }
 
     private void setListIndex(int value) {
         listIndex = value;
     }
-    private int getListIndex() {
-        return listIndex;
-    }
+
+//    private int getListIndex() {
+//        return listIndex;
+//    }
 
     private void addListItem(String item) {
-        tasklist[getListIndex()] = item; //Update the right index
-        donelist[getListIndex()] = false;
+        tasklist[listIndex] = new Task(item, listIndex); //Use the constructor to create a new Task. Saved index starts from 1.
+        //donelist[getListIndex()] = false; //Handled by the class
         System.out.println("Item added: " + item);
-        setListIndex(getListIndex() + 1); //Increment the index
+        setListIndex(listIndex + 1); //Increment the index
     }
 
     private void printList() {
-        int max = getListIndex();
-        for (int i = 0; i < max; i++) {
-            if (donelist[i]) {
-                System.out.print("[\u2713]");
-            } else {
-                System.out.print("[\u2718]");
-            }
-            System.out.println(" " + (i+1) + ". " + tasklist[i]);
+        int max = listIndex;
+        for (int i = 1; i < max; i++) { //index starts from 1.
+//            if (donelist[i]) {
+//                System.out.print("[\u2713]");
+//            } else {
+//                System.out.print("[\u2718]");
+//            }
+//            System.out.println(" " + (i+1) + ". " + tasklist[i]);
+
+            //Should just repeatedly call a print function from the Task class.
+            tasklist[i].printTaskDetails();
         }
     }
 
-    private void markAsDone(int i) {
+    private void markTaskAsDone(int i) {
         System.out.print("Nice! I've marked this task as done: ");
-        donelist[i] = true; //Mark task as done.
-        System.out.println(tasklist[i]); //Prints taskname
+        tasklist[i].markAsDone(); //Mark task as done.
+        System.out.println(tasklist[i].getDescription()); //Prints task name
     }
 
     public void handleListInput(String listInput) {
@@ -44,8 +48,7 @@ public class Tasklist {
             printList();
         } else if (listInput.length() >= 4 && listInput.substring(0, 4).equals("done")){
             String number = listInput.substring(5);
-            //System.out.println("done placeholder");
-            markAsDone(Integer.parseInt(number)-1);
+            markTaskAsDone(Integer.parseInt(number));
         }else {
             addListItem(listInput);
         }
