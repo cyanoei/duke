@@ -26,13 +26,14 @@ public class Duke {
     public static void main(String[] args) {
         printIntro();
 
+        Tasklist l = new Tasklist();
         Scanner in = new Scanner(System.in);
 
         String userInput = in.nextLine();
 
         while (!userInput.equals("bye")) {
             printNewLine();
-            System.out.println(userInput);
+            l.handleListInput(userInput);
             printNewLine();
             userInput = in.nextLine();
         }
