@@ -1,6 +1,5 @@
 public class Tasklist {
     private Task[] tasklist = new Task[100];
-    //private boolean[] donelist = new boolean[100];
     private int listIndex;
 
     public Tasklist() {
@@ -11,13 +10,8 @@ public class Tasklist {
         listIndex = value;
     }
 
-//    private int getListIndex() {
-//        return listIndex;
-//    }
-
     private void addListItem(String item) {
         tasklist[listIndex] = new Task(item, listIndex); //Use the constructor to create a new Task. Saved index starts from 1.
-        //donelist[getListIndex()] = false; //Handled by the class
         System.out.println("Item added: " + item);
         setListIndex(listIndex + 1); //Increment the index
     }
@@ -25,14 +19,6 @@ public class Tasklist {
     private void printList() {
         int max = listIndex;
         for (int i = 1; i < max; i++) { //index starts from 1.
-//            if (donelist[i]) {
-//                System.out.print("[\u2713]");
-//            } else {
-//                System.out.print("[\u2718]");
-//            }
-//            System.out.println(" " + (i+1) + ". " + tasklist[i]);
-
-            //Should just repeatedly call a print function from the Task class.
             tasklist[i].printTaskDetails();
         }
     }
