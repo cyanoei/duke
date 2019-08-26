@@ -1,7 +1,11 @@
 public class Tasklist {
     private String[] tasklist = new String[100];
     private boolean[] donelist = new boolean[100];
-    private int listIndex = 0;
+    private int listIndex;
+
+    public Tasklist() {
+        this.listIndex = 0;
+    }
 
     private void setListIndex(int value) {
         listIndex = value;
