@@ -3,6 +3,11 @@ public class Task {
     private int taskIndex;
     private boolean isDone;
 
+
+    public Task() {
+        this.description = "None";
+        this.isDone = false;
+    }
     public Task(String description, int taskIndex) {
         this.description = description;
         this.taskIndex = taskIndex;
