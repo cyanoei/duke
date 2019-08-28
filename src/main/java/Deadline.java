@@ -7,6 +7,16 @@ public class Deadline extends Task {
         this.doBy = by;
     }
 
+    public String getDoBy() {
+        return doBy;
+    }
+
+    @Override
+    public void printTaskDetails() {
+        System.out.print(super.getStatusIcon() + " ");
+        System.out.print(super.getTaskIndex() + ". " + super.getDescription());
+        System.out.println("(" + this.doBy + ")");
+    }
 
     //what does this do :/
     @Override

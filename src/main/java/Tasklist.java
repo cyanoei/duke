@@ -16,6 +16,23 @@ public class Tasklist {
         setListIndex(listIndex + 1); //Increment the index
     }
 
+    private void addTodoItem(String item) {
+        String todoitem = item.substring(5);
+        tasklist[listIndex] = new Todo(todoitem, listIndex); //Use the constructor to create a new Task. Saved index starts from 1.
+        System.out.println("Todo item added: " + todoitem);
+        setListIndex(listIndex + 1); //Increment the index
+    }
+
+    private void addDeadlineItem(String item) {
+        String ditem = item.substring(9);
+        String deadline = ditem.split("/")[0];
+        String by = ditem.split("/")[1]; //Behind the slash
+        tasklist[listIndex] = new Deadline(deadline, by, listIndex); //Use the constructor to create a new Task. Saved index starts from 1.
+        System.out.println("Deadline item added: " + deadline);
+        System.out.println("Deadline is: " + by);
+        setListIndex(listIndex + 1); //Increment the index
+    }
+
     private void printList() {
         int max = listIndex;
         for (int i = 1; i < max; i++) { //index starts from 1.
@@ -30,13 +47,26 @@ public class Tasklist {
     }
 
     public void handleListInput(String listInput) {
-        if (listInput.equals("list")) {
+        if (listInput.substring(0, 4).equals("list")) { //Both "list" and "list " will now be the right command.
             printList();
-        } else if (listInput.length() >= 4 && listInput.substring(0, 4).equals("done")){
+        } else if (listInput.length() >= 5 && listInput.substring(0, 5).equals("done ")) { //Modified to include the space after done.
             String number = listInput.substring(5);
             markTaskAsDone(Integer.parseInt(number));
-        }else {
-            addListItem(listInput);
+        } else if (listInput.length() >= 5 && listInput.substring(0, 5).equals("todo ")) {
+
+            addTodoItem(listInput);
+
+        } else if (listInput.length() >= 9 && listInput.substring(0, 9).equals("deadline ")) {
+
+            addDeadlineItem(listInput);
+
+        } else if (listInput.length() >= 6 && listInput.substring(0, 6).equals("event ")) {
+
+            //add event item
+
+        } else {
+            addListItem(listInput); //Regular "Task" class
+            //Or throw an exception?
         }
     }
 

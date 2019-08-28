@@ -8,6 +8,7 @@ public class Task {
         this.description = "None";
         this.isDone = false;
     }
+
     public Task(String description, int taskIndex) {
         this.description = description;
         this.taskIndex = taskIndex;
@@ -18,10 +19,13 @@ public class Task {
         return this.description;
     }
 
-    private String getStatusIcon() {
+    public String getStatusIcon() {
         return (isDone ? "[\u2713]" : "[\u2718]"); //return tick or X symbols
     }
 
+    public int getTaskIndex() {
+        return this.taskIndex;
+    }
     public void printTaskDetails() {
         System.out.print(getStatusIcon() + " ");
         System.out.println(taskIndex + ". " + description);
