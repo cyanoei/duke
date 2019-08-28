@@ -33,6 +33,16 @@ public class Tasklist {
         setListIndex(listIndex + 1); //Increment the index
     }
 
+    private void addEventItem(String item) {
+        String eitem = item.substring(6);
+        String event = eitem.split("/")[0];
+        String start = eitem.split("/")[1];
+        tasklist[listIndex] = new Event(event, start, listIndex); //Use the constructor to create a new Task. Saved index starts from 1.
+        System.out.println("Deadline item added: " + event);
+        System.out.println("Deadline is: " + start);
+        setListIndex(listIndex + 1); //Increment the index
+    }
+
     private void printList() {
         int max = listIndex;
         for (int i = 1; i < max; i++) { //index starts from 1.
@@ -47,7 +57,7 @@ public class Tasklist {
     }
 
     public void handleListInput(String listInput) {
-        if (listInput.substring(0, 4).equals("list")) { //Both "list" and "list " will now be the right command.
+        if (listInput.length() >= 4 && listInput.substring(0, 4).equals("list")) { //Both "list" and "list " will now be the right command.
             printList();
         } else if (listInput.length() >= 5 && listInput.substring(0, 5).equals("done ")) { //Modified to include the space after done.
             String number = listInput.substring(5);
@@ -62,7 +72,7 @@ public class Tasklist {
 
         } else if (listInput.length() >= 6 && listInput.substring(0, 6).equals("event ")) {
 
-            //add event item
+            addEventItem(listInput);
 
         } else {
             addListItem(listInput); //Regular "Task" class
