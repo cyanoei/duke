@@ -36,7 +36,7 @@ public class Duke {
 
             try {
                 l.handleListInput(userInput);
-            } catch (BadInputException e) { //e is a string - the exception message
+            } catch (BadInputException | InsufficientInfoException e) { //e is a string - the exception message
                 System.out.println(e);
             }
 
