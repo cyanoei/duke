@@ -8,9 +8,4 @@ public class Todo extends Task {
 
     //PrintTaskDetails is the same
 
-    //what does this do :/
-//    @Override
-//    public String toString() {
-//        return "[D]" + super.toString() + " (by: " + doBy + ")";
-//    }
 }

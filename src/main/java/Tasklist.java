@@ -65,18 +65,24 @@ public class Tasklist {
         } else if (listInput.length() >= 5 && listInput.substring(0, 5).equals("todo ")) {
 
             addTodoItem(listInput);
+            //exception for no details
 
         } else if (listInput.length() >= 9 && listInput.substring(0, 9).equals("deadline ")) {
 
             addDeadlineItem(listInput);
+            //exception for no details
+            //exception for no by
 
         } else if (listInput.length() >= 6 && listInput.substring(0, 6).equals("event ")) {
 
             addEventItem(listInput);
+            //exception for no details
+            //exception for no at
 
         } else {
-            addListItem(listInput); //Regular "Task" class
-            //Or throw an exception?
+
+            //exception for wrong input
+
         }
     }
 
