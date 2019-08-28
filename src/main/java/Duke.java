@@ -33,7 +33,13 @@ public class Duke {
 
         while (!userInput.equals("bye")) {
             printNewLine();
-            l.handleListInput(userInput);
+
+            try {
+                l.handleListInput(userInput);
+            } catch (BadInputException e) { //e is a string - the exception message
+                System.out.println(e);
+            }
+
             printNewLine();
             userInput = in.nextLine();
         }

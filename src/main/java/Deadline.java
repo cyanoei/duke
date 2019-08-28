@@ -11,16 +11,9 @@ public class Deadline extends Task {
         return doBy;
     }
 
-    @Override
-    public void printTaskDetails() {
-        System.out.print(super.getStatusIcon() + " ");
-        System.out.print(super.getTaskIndex() + ". " + super.getDescription());
-        System.out.println("(" + this.doBy + ")");
-    }
-
     //what does this do :/
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + doBy + ")";
+        return "[D] " + super.toString() + " (by: " + doBy + ")";
     }
 }

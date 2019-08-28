@@ -26,12 +26,17 @@ public class Task {
     public int getTaskIndex() {
         return this.taskIndex;
     }
+
     public void printTaskDetails() {
-        System.out.print(getStatusIcon() + " ");
-        System.out.println(taskIndex + ". " + description);
+        System.out.println(toString());
     }
 
     public void markAsDone() {
         this.isDone = true;
+    }
+
+    @Override
+    public String toString() {
+        return getStatusIcon() + " " + description; //eg. [✓] read book
     }
 }

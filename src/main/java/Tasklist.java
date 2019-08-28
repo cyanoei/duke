@@ -1,3 +1,5 @@
+//I have realised that this class should not exist, but I will change it only when I have time later.
+
 public class Tasklist {
     private Task[] tasklist = new Task[100];
     private int listIndex;
@@ -25,8 +27,8 @@ public class Tasklist {
 
     private void addDeadlineItem(String item) {
         String ditem = item.substring(9);
-        String deadline = ditem.split("/")[0];
-        String by = ditem.split("/")[1]; //Behind the slash
+        String deadline = ditem.split("/by ")[0];
+        String by = ditem.split("/by ")[1]; //Behind the slash
         tasklist[listIndex] = new Deadline(deadline, by, listIndex); //Use the constructor to create a new Task. Saved index starts from 1.
         System.out.println("Deadline item added: " + deadline);
         System.out.println("Deadline is: " + by);
@@ -35,8 +37,8 @@ public class Tasklist {
 
     private void addEventItem(String item) {
         String eitem = item.substring(6);
-        String event = eitem.split("/")[0];
-        String start = eitem.split("/")[1];
+        String event = eitem.split("/at ")[0];
+        String start = eitem.split("/at ")[1];
         tasklist[listIndex] = new Event(event, start, listIndex); //Use the constructor to create a new Task. Saved index starts from 1.
         System.out.println("Deadline item added: " + event);
         System.out.println("Deadline is: " + start);
@@ -46,6 +48,7 @@ public class Tasklist {
     private void printList() {
         int max = listIndex;
         for (int i = 1; i < max; i++) { //index starts from 1.
+            System.out.print(i + ". ");
             tasklist[i].printTaskDetails();
         }
     }
@@ -56,7 +59,7 @@ public class Tasklist {
         System.out.println(tasklist[i].getDescription()); //Prints task name
     }
 
-    public void handleListInput(String listInput) {
+    public void handleListInput(String listInput) throws BadInputException {
         if (listInput.length() >= 4 && listInput.substring(0, 4).equals("list")) { //Both "list" and "list " will now be the right command.
             printList();
         } else if (listInput.length() >= 5 && listInput.substring(0, 5).equals("done ")) { //Modified to include the space after done.
@@ -81,8 +84,7 @@ public class Tasklist {
 
         } else {
 
-            //exception for wrong input
-
+            throw new BadInputException("Sorry, don't recognise that input!");
         }
     }
 
