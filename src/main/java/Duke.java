@@ -142,7 +142,7 @@ public class Duke {
             Scanner s = new Scanner(f); // create a Scanner using the File as the source
             while (s.hasNext()) {
                 String itemRaw = s.nextLine();
-                String[] item = itemRaw.split("/");
+                String[] item = itemRaw.split("/", 4);
 
                 switch (item[0]) {
                     case "T":
@@ -219,9 +219,9 @@ public class Duke {
             userInput = in.nextLine();
         }
 
-        userInput = in.nextLine();
-        Date hello = new Date(userInput);
-        hello.printFormattedDate();
+        //userInput = in.nextLine();
+        //Date hello = new Date(userInput);
+        //hello.printFormattedDate();
 
         saveFileContents("data/saved_tasks.txt");
         printExitMessage();

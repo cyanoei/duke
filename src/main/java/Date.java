@@ -94,8 +94,8 @@ public class Date {
         }
     }
 
-    public void printFormattedDate() {
-        System.out.println(getDayString() + " of " + getMonthString() + " " + year + ", " + getTimeString());
+    public String returnFormattedDate() {
+        return getDayString() + " of " + getMonthString() + " " + year + ", " + getTimeString();
     }
 
 }

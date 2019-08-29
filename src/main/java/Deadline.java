@@ -1,10 +1,12 @@
 public class Deadline extends Task {
 
     private String doBy;
+    private Date doByDate;
 
     public Deadline(String description, String by, int taskIndex) {
         super(description, taskIndex); //Using the Task constructor. isDone is set to false.
         this.doBy = by;
+        this.doByDate = new Date(doBy);
     }
 
     public String getDoBy() {
@@ -16,8 +18,12 @@ public class Deadline extends Task {
         return "D/" + super.saveDetailsString() + "/" + doBy;
     }
 
+    public String getDoByDate() {
+        return doByDate.returnFormattedDate();
+    }
+
     @Override
     public String toString() {
-        return "[D] " + super.toString() + " (by: " + doBy + ")";
+        return "[D] " + super.toString() + " (by: " + doByDate.returnFormattedDate() + ")";
     }
 }
