@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat;
+
 public class Task {
     private String description;
     private int taskIndex;
@@ -43,6 +45,13 @@ public class Task {
     public void markAsDone() {
         this.isDone = true;
     }
+
+//    public void readDateTime(String dateAndTime) {
+//        String pattern = "dd/MM/yyyy HHmm";
+//        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+//        String formatted = formatter.format(dateAndTime);
+//        System.out.println(formatted);
+//    }
 
     @Override
     public String toString() {

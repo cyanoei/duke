@@ -170,7 +170,7 @@ public class Duke {
                 i++; //Increment counter! 
             }
         } catch (FileNotFoundException e) {
-            System.out.println("???");
+            System.out.println("Save file not found. New list will be created instead.");
         }
         
         setListIndex(i); //Point to the next available task number; 
@@ -218,6 +218,10 @@ public class Duke {
             printNewLine();
             userInput = in.nextLine();
         }
+
+        userInput = in.nextLine();
+        Date hello = new Date(userInput);
+        hello.printFormattedDate();
 
         saveFileContents("data/saved_tasks.txt");
         printExitMessage();
