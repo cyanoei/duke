@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Duke {
@@ -6,10 +10,10 @@ public class Duke {
 
     private static void printIntro() {
         String logo = " ____        _        \n"
-                + "|  _ \\ _   _| | _____ \n"
-                + "| | | | | | | |/ / _ \\\n"
-                + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
+                    + "|  _ \\ _   _| | _____ \n"
+                    + "| | | | | | | |/ / _ \\\n"
+                    + "| |_| | |_| |   <  __/\n"
+                    + "|____/ \\__,_|_|\\_\\___|\n";
         printNewLine();
         System.out.println("Hello from\n" + logo);
         System.out.println("Hello! I'm Duke\n" + "What can I do for you?");
@@ -128,14 +132,68 @@ public class Duke {
             throw new BadInputException("Sorry, don't recognise that input!");
         }
     }
+    
+    private static Task[] readFileContents(String filePath) {
+        Task[] savedList = new Task[100];  
+        int i = 1; 
+        File f = new File(filePath); // create a File for the given file path
+        
+        try {
+            Scanner s = new Scanner(f); // create a Scanner using the File as the source
+            while (s.hasNext()) {
+                String itemRaw = s.nextLine();
+                String[] item = itemRaw.split("/");
 
-    public static void main(String[] args) {
+                switch (item[0]) {
+                    case "T":
+                        savedList[i] = new Todo(item[2], i);
+
+                        break;
+                    case "D":
+                        savedList[i] = new Deadline(item[2], item[3], i);
+
+                        break;
+                    case "E":
+                        savedList[i] = new Event(item[2], item[3], i);
+
+                        break;
+                    default:
+                        //throw an exception 
+                        System.out.println("An exception will be thrown here eventually.");
+                        break;
+                }
+                
+                if (item[1].equals("1")) {
+                    savedList[i].markAsDone(); 
+                }
+                
+                i++; //Increment counter! 
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("???");
+        }
+        
+        setListIndex(i); //Point to the next available task number; 
+        
+        return savedList; //Returns an array of Task objects 
+    }
+
+    private static void saveFileContents(String filePath) {
+        System.out.println(tasklist.length);
+        if (tasklist[6] == null) System.out.println("null"); //Can check if there is no object at that index.
+    }
+    
+    public static void main(String[] args) throws IOException {
         printIntro();
 
+//        FileWriter fw = new FileWriter("saved_tasks.txt");
+//        fw.write("textToAdd");
+//        fw.close();
+        tasklist = readFileContents("data/saved_tasks.txt");
+
         Scanner in = new Scanner(System.in);
-
         String userInput = in.nextLine();
-
+        
         while (!userInput.equals("bye")) {
             printNewLine();
 
@@ -148,6 +206,8 @@ public class Duke {
             printNewLine();
             userInput = in.nextLine();
         }
+
+        saveFileContents("data/saved_tasks.txt");
         printExitMessage();
     }
 }
