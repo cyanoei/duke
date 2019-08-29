@@ -2,14 +2,20 @@ public class Event extends Task {
 
     private String start;
     private String end; //For later.
+    private Date eventTime;
 
     public Event(String description, String start, int taskIndex) {
         super(description, taskIndex); //Using the Task constructor. isDone is set to false.
         this.start = start;
+        this.eventTime = new Date(start);
     }
 
     public String getStart() {
         return start;
+    }
+
+    public String getEventTime() {
+        return eventTime.returnFormattedDate();
     }
 
     @Override
@@ -19,6 +25,6 @@ public class Event extends Task {
 
     @Override
     public String toString() {
-        return "[E] " + super.toString() + " (at: " + start + ")";
+        return "[E] " + super.toString() + " (at: " + eventTime.returnFormattedDate() + ")";
     }
 }
