@@ -12,12 +12,10 @@ public class Event extends Task {
         return start;
     }
 
-//    @Override
-//    public void printTaskDetails() {
-//        System.out.print(super.getStatusIcon() + " ");
-//        System.out.print(super.getTaskIndex() + ". " + super.getDescription());
-//        System.out.println("(at: " + this.start + ")");
-//    }
+    @Override
+    public String saveDetailsString() {
+        return "E/" + super.saveDetailsString() + "/" + start;
+    }
 
     @Override
     public String toString() {

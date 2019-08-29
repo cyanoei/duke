@@ -178,17 +178,29 @@ public class Duke {
         return savedList; //Returns an array of Task objects 
     }
 
+    private static void writeToFile(String filePath, String textToAdd) throws IOException {
+        FileWriter fw = new FileWriter(filePath);
+        fw.write(textToAdd);
+        fw.close();
+    }
+
     private static void saveFileContents(String filePath) {
-        System.out.println(tasklist.length);
-        if (tasklist[6] == null) System.out.println("null"); //Can check if there is no object at that index.
+        StringBuilder tasksToSave = new StringBuilder();
+        for (int i = 1; i < listIndex; i++) { //index starts from 1.
+            tasksToSave.append(tasklist[i].saveDetailsString()).append(System.lineSeparator());
+        }
+
+        String taskListToSave = tasksToSave.toString();
+        try {
+            writeToFile(filePath, taskListToSave);
+        } catch (IOException e) {
+            System.out.println("Something went wrong saving the file :(");
+        }
     }
     
     public static void main(String[] args) throws IOException {
         printIntro();
 
-//        FileWriter fw = new FileWriter("saved_tasks.txt");
-//        fw.write("textToAdd");
-//        fw.close();
         tasklist = readFileContents("data/saved_tasks.txt");
 
         Scanner in = new Scanner(System.in);

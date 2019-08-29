@@ -11,7 +11,11 @@ public class Deadline extends Task {
         return doBy;
     }
 
-    //what does this do :/
+    @Override
+    public String saveDetailsString() {
+        return "D/" + super.saveDetailsString() + "/" + doBy;
+    }
+
     @Override
     public String toString() {
         return "[D] " + super.toString() + " (by: " + doBy + ")";

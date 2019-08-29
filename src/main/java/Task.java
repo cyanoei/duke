@@ -31,6 +31,15 @@ public class Task {
         System.out.println(toString());
     }
 
+    public String saveDetailsString() {
+        String done;
+        if (this.isDone) done = "1";
+        else done = "0";
+
+        return done + "/" + description;
+        //Returns string in the style of "1/read book"
+    }
+
     public void markAsDone() {
         this.isDone = true;
     }
