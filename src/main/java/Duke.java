@@ -97,6 +97,11 @@ public class Duke {
 
     private static void printList() {
         int max = listIndex;
+        if (max == 1) {
+            System.out.println("The list is currently empty.");
+            return;
+        }
+
         for (int i = 1; i < max; i++) { //index starts from 1.
             System.out.print(i + ". ");
             tasklist[i].printTaskDetails();
