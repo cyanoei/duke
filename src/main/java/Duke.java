@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -45,7 +46,8 @@ public class Duke {
 //    }
 
     /*TODO Strip descriptions of leading/trailing spaces before submitting
-        Accept mutiple space delimiter to take the first word...?
+        Accept multiple space delimiter to take the first word...?
+
     * */
 
     private static void addTodoItem(String item) throws InsufficientInfoException {
@@ -155,6 +157,26 @@ public class Duke {
         }
     }
 
+    private static void searchForTask(String search) {
+        int max = tasklist.size();
+        int unfound = 0;
+        ArrayList<Task> found = new ArrayList<>();
+
+        for (int i = 0; i < max; i ++) {
+            if (tasklist.get(i).getDescription().contains(search)) {
+                System.out.print(i+1 + ". " ); //Print the index of the task.
+                tasklist.get(i).printTaskDetails();
+            } else {
+                unfound++;
+            }
+        }
+
+        if (unfound == max) {
+            System.out.println("Sorry, I could not find any tasks containing the description \"" + search + "\"." );
+        }
+
+    }
+
     private static void handleListInput(String listInput) throws BadInputException, InsufficientInfoException, NumberFormatException {
 
         String[] keyword = listInput.split(" ", 2);
@@ -180,6 +202,11 @@ public class Duke {
             case "delete": {
                 String number = keyword[1];
                 deleteTask(Integer.parseInt(number) - 1); //Decrement by 1 to fit the 0-indexed ArrayList.
+                break;
+            }
+            case "find": {
+                String search = keyword[1];
+                searchForTask(search);
                 break;
             }
             default:
