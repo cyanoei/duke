@@ -2,11 +2,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Duke {
-    private static Task[] tasklist = new Task[100];
-    private static int listIndex = 1;
+    private static ArrayList<Task> tasklist = new ArrayList<>();
+
+    //Consider not using the listIndex anymore?
+    private static int listIndex = 0; //Starts from 0 now lol.
 
     private static void printIntro() {
         String logo = " ____        _        \n"
@@ -34,11 +37,16 @@ public class Duke {
         listIndex = value;
     }
 
-    private void addListItem(String item) {
-        tasklist[listIndex] = new Task(item, listIndex); //Use the constructor to create a new Task. Saved index starts from 1.
-        System.out.println("Item added: " + item);
-        setListIndex(listIndex + 1); //Increment the index
-    }
+    //Old tasklist declaration
+//    private void addListItem(String item) {
+//        tasklist[listIndex] = new Task(item, listIndex); //Use the constructor to create a new Task. Saved index starts from 1.
+//        System.out.println("Item added: " + item);
+//        setListIndex(listIndex + 1); //Increment the index
+//    }
+
+    /*TODO Strip descriptions of leading/trailing spaces before submitting
+        Accept mutiple space delimiter to take the first word...?
+    * */
 
     private static void addTodoItem(String item) throws InsufficientInfoException {
         try {
@@ -47,8 +55,9 @@ public class Duke {
             if (todoitem.length() == 0) {
                 throw new InsufficientInfoException("Sorry, the description of a Todo cannot be blank!");
             } else {
-                tasklist[listIndex] = new Todo(todoitem, listIndex); //Use the constructor to create a new Task. Saved index starts from 1.
+                tasklist.add(new Todo(todoitem, listIndex)); //Use the constructor to create a new Task. Saved index starts from 1.
                 System.out.println("Todo item added: " + todoitem);
+
                 setListIndex(listIndex + 1); //Increment the index
             }
         } catch (StringIndexOutOfBoundsException e) {
@@ -67,9 +76,10 @@ public class Duke {
             } else if ((deadline.length < 2) || deadline[1].length() == 0) { //If the field is empty or does not exist
                 throw new InsufficientInfoException("Sorry, the Deadline must have a date to be completed /by.");
             } else {
-                tasklist[listIndex] = new Deadline(deadline[0], deadline[1], listIndex); //Use the constructor to create a new Task. Saved index starts from 1.
+                tasklist.add(new Deadline(deadline[0], deadline[1], listIndex)); //Use the constructor to create a new Task. Saved index starts from 1.
                 System.out.println("Deadline item added: " + deadline[0]);
                 System.out.println("Deadline is: " + deadline[1]);
+
                 setListIndex(listIndex + 1); //Increment the index
             }
         }
@@ -87,7 +97,7 @@ public class Duke {
             } else if ((event.length < 2) || event[1].length() == 0) {
                 throw new InsufficientInfoException("Sorry, the event must have a timeframe it happens /at.");
             } else {
-                tasklist[listIndex] = new Event(event[0], event[1], listIndex); //Use the constructor to create a new Task. Saved index starts from 1.
+                tasklist.add(new Event(event[0], event[1], listIndex)); //Use the constructor to create a new Task. Saved index starts from 1.
                 System.out.println("Event item added: " + event[0]);
                 System.out.println("Event happens at: " + event[1]);
                 setListIndex(listIndex + 1); //Increment the index
@@ -96,51 +106,79 @@ public class Duke {
     }
 
     private static void printList() {
-        int max = listIndex;
-        if (max == 1) {
+        int max = tasklist.size();
+        if (max == 0) {
             System.out.println("The list is currently empty.");
             return;
         }
 
-        for (int i = 1; i < max; i++) { //index starts from 1.
-            System.out.print(i + ". ");
-            tasklist[i].printTaskDetails();
+        for (int i = 0; i < max; i++) { //Index starts from 0.
+            System.out.print(i+1 + ". "); //Add 1 to follow natural numbers.
+            tasklist.get(i).printTaskDetails();
         }
     }
 
     private static void markTaskAsDone(int i) {
         System.out.print("Nice! I've marked this task as done: ");
-        tasklist[i].markAsDone(); //Mark task as done.
-        System.out.println(tasklist[i].getDescription()); //Prints task name
+        tasklist.get(i).markAsDone(); //Mark task as done.
+        System.out.println(tasklist.get(i).getDescription()); //Prints task name
+    }
+
+    private static void deleteTask(int i) { //0-indexed
+        System.out.print("Okay! I've deleted this task: ");
+        System.out.println(tasklist.get(i).getDescription());
+
+        if (tasklist.get(i).getIsDone()) System.out.println("The task was completed.");
+        else System.out.println("The task was not completed.");
+
+        tasklist.remove(i);
+
+        listIndex--;
     }
 
     private static void handleListInput(String listInput) throws BadInputException, InsufficientInfoException {
-        if (listInput.length() >= 4 && listInput.substring(0, 4).equals("list")) { //Both "list" and "list " will now be the right command.
+
+        String keyword[] = listInput.split(" ", 2);
+        //System.out.println(keyword[1]);
+        if (keyword[0].equals("list")) {
             printList();
-        } else if (listInput.length() >= 4 && listInput.substring(0, 4).equals("done")) { //Modified to include the space after done.
-            String number = listInput.substring(5);
-            markTaskAsDone(Integer.parseInt(number));
-        } else if (listInput.length() >= 4 && listInput.substring(0, 4).equals("todo")) {
-
+        } else if (keyword[0].equals("done")) {
+            String number = keyword[1];
+            markTaskAsDone(Integer.parseInt(number) - 1); //Decrement by 1 to fit the 0-indexed ArrayList.
+        } else if (keyword[0].equals("todo")) {
             addTodoItem(listInput);
-
-        } else if (listInput.length() >= 8 && listInput.substring(0, 8).equals("deadline")) {
-
+        } else if (keyword[0].equals("deadline")) {
             addDeadlineItem(listInput);
-
-        } else if (listInput.length() >= 5 && listInput.substring(0, 5).equals("event")) {
-
+        } else if (keyword[0].equals("event")) {
             addEventItem(listInput);
-
+        } else if (keyword[0].equals("delete")) {
+            String number = keyword[1];
+            deleteTask(Integer.parseInt(number) - 1); //Decrement by 1 to fit the 0-indexed ArrayList.
         } else {
-
-            throw new BadInputException("Sorry, don't recognise that input!");
+            throw new BadInputException("Sorry, I don't recognise that input!");
         }
+
+//        if (listInput.length() >= 4 && listInput.substring(0, 4).equals("list")) { //Both "list" and "list " will now be the right command.
+//            printList();
+//        } else if (listInput.length() >= 4 && listInput.substring(0, 4).equals("done")) { //Modified to include the space after done.
+//            String number = listInput.substring(5);
+//            markTaskAsDone(Integer.parseInt(number) - 1); //Decrement by 1 to fit the 0-indexed ArrayList.
+//        } else if (listInput.length() >= 4 && listInput.substring(0, 4).equals("todo")) {
+//            addTodoItem(listInput);
+//        } else if (listInput.length() >= 8 && listInput.substring(0, 8).equals("deadline")) {
+//            addDeadlineItem(listInput);
+//        } else if (listInput.length() >= 5 && listInput.substring(0, 5).equals("event")) {
+//            addEventItem(listInput);
+//        } else {
+//            throw new BadInputException("Sorry, don't recognise that input!");
+//        }
     }
     
-    private static Task[] readFileContents(String filePath) {
-        Task[] savedList = new Task[100];  
-        int i = 1; 
+    private static ArrayList<Task> readFileContents(String filePath) {
+        ArrayList<Task> savedList = new ArrayList<>();
+        //Task[] savedList = new Task[100];
+
+        int i = 0;
         File f = new File(filePath); // create a File for the given file path
         
         try {
@@ -151,15 +189,15 @@ public class Duke {
 
                 switch (item[0]) {
                     case "T":
-                        savedList[i] = new Todo(item[2], i);
+                        savedList.add(new Todo(item[2], i));
 
                         break;
                     case "D":
-                        savedList[i] = new Deadline(item[2], item[3], i);
+                        savedList.add(new Deadline(item[2], item[3], i));
 
                         break;
                     case "E":
-                        savedList[i] = new Event(item[2], item[3], i);
+                        savedList.add(new Event(item[2], item[3], i));
 
                         break;
                     default:
@@ -169,7 +207,7 @@ public class Duke {
                 }
                 
                 if (item[1].equals("1")) {
-                    savedList[i].markAsDone(); 
+                    savedList.get(i).markAsDone();  //ArrayList indexing starts from 0.
                 }
                 
                 i++; //Increment counter! 
@@ -191,8 +229,8 @@ public class Duke {
 
     private static void saveFileContents(String filePath) {
         StringBuilder tasksToSave = new StringBuilder();
-        for (int i = 1; i < listIndex; i++) { //index starts from 1.
-            tasksToSave.append(tasklist[i].saveDetailsString()).append(System.lineSeparator());
+        for (int i = 0; i < listIndex; i++) { //index starts from 0.
+            tasksToSave.append(tasklist.get(i).saveDetailsString()).append(System.lineSeparator());
         }
 
         String taskListToSave = tasksToSave.toString();

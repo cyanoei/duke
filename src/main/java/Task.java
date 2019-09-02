@@ -29,6 +29,10 @@ public class Task {
         return this.taskIndex;
     }
 
+    public boolean getIsDone() {
+        return isDone;
+    }
+
     public void printTaskDetails() {
         System.out.println(toString());
     }

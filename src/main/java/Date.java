@@ -39,7 +39,7 @@ public class Date {
 
     public String getDayString() {
         if (day > 31) {
-            System.out.println("Throw exception.");
+            System.out.println("Day is invalid.");
             return null;
         }
         else if (day > 10 && day < 14) return Integer.toString(day) + "th";
@@ -76,7 +76,7 @@ public class Date {
             case 12:
                 return "December";
             default:
-                System.out.println("Throw an exception here.");
+                System.out.println("Month is invalid.");
                 return null;
         }
     }
@@ -89,7 +89,7 @@ public class Date {
         } else if (hour == 12) {
             return "12:" + minute + " pm";
         } else {
-            System.out.println("Throw some exception.");
+            System.out.println("Time is invalid.");
             return null;
         }
     }
