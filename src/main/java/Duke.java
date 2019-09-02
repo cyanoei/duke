@@ -118,60 +118,73 @@ public class Duke {
         }
     }
 
-    private static void markTaskAsDone(int i) {
-        System.out.print("Nice! I've marked this task as done: ");
-        tasklist.get(i).markAsDone(); //Mark task as done.
-        System.out.println(tasklist.get(i).getDescription()); //Prints task name
+    private static void printTaskNonexistent() {
+        System.out.println("That task doesn't exist! Please check the available tasks again: ");
+        printList();
+    }
+
+    private static void markTaskAsDone(int i) throws IndexOutOfBoundsException{
+
+        try {
+            tasklist.get(i).markAsDone(); //Mark task as done.
+            System.out.print("Nice! I've marked this task as done: ");
+            System.out.println(tasklist.get(i).getDescription()); //Prints task name
+        } catch (IndexOutOfBoundsException e) {
+            printTaskNonexistent();
+        }
     }
 
     private static void deleteTask(int i) { //0-indexed
-        System.out.print("Okay! I've deleted this task: ");
-        System.out.println(tasklist.get(i).getDescription());
+        try {
+            Task item = tasklist.get(i);
+            tasklist.remove(i); //The original copy is gone :(
 
-        if (tasklist.get(i).getIsDone()) System.out.println("The task was completed.");
-        else System.out.println("The task was not completed.");
+            System.out.print("Okay! I've deleted this task: ");
+            System.out.println(item.getDescription());
 
-        tasklist.remove(i);
+            if (item.getIsDone()) {
+                System.out.println("The task was completed.");
+            } else {
+                System.out.println("The task was not completed.");
+            }
 
-        listIndex--;
+            listIndex--;
+
+        } catch (IndexOutOfBoundsException e) {
+            printTaskNonexistent();
+        }
     }
 
-    private static void handleListInput(String listInput) throws BadInputException, InsufficientInfoException {
+    private static void handleListInput(String listInput) throws BadInputException, InsufficientInfoException, NumberFormatException {
 
-        String keyword[] = listInput.split(" ", 2);
+        String[] keyword = listInput.split(" ", 2);
         //System.out.println(keyword[1]);
-        if (keyword[0].equals("list")) {
-            printList();
-        } else if (keyword[0].equals("done")) {
-            String number = keyword[1];
-            markTaskAsDone(Integer.parseInt(number) - 1); //Decrement by 1 to fit the 0-indexed ArrayList.
-        } else if (keyword[0].equals("todo")) {
-            addTodoItem(listInput);
-        } else if (keyword[0].equals("deadline")) {
-            addDeadlineItem(listInput);
-        } else if (keyword[0].equals("event")) {
-            addEventItem(listInput);
-        } else if (keyword[0].equals("delete")) {
-            String number = keyword[1];
-            deleteTask(Integer.parseInt(number) - 1); //Decrement by 1 to fit the 0-indexed ArrayList.
-        } else {
-            throw new BadInputException("Sorry, I don't recognise that input!");
+        switch (keyword[0]) {
+            case "list":
+                printList();
+                break;
+            case "done": {
+                String number = keyword[1];
+                markTaskAsDone(Integer.parseInt(number) - 1); //Decrement by 1 to fit the 0-indexed ArrayList.
+                break;
+            }
+            case "todo":
+                addTodoItem(listInput);
+                break;
+            case "deadline":
+                addDeadlineItem(listInput);
+                break;
+            case "event":
+                addEventItem(listInput);
+                break;
+            case "delete": {
+                String number = keyword[1];
+                deleteTask(Integer.parseInt(number) - 1); //Decrement by 1 to fit the 0-indexed ArrayList.
+                break;
+            }
+            default:
+                throw new BadInputException("Sorry, I don't recognise that input keyword!");
         }
-
-//        if (listInput.length() >= 4 && listInput.substring(0, 4).equals("list")) { //Both "list" and "list " will now be the right command.
-//            printList();
-//        } else if (listInput.length() >= 4 && listInput.substring(0, 4).equals("done")) { //Modified to include the space after done.
-//            String number = listInput.substring(5);
-//            markTaskAsDone(Integer.parseInt(number) - 1); //Decrement by 1 to fit the 0-indexed ArrayList.
-//        } else if (listInput.length() >= 4 && listInput.substring(0, 4).equals("todo")) {
-//            addTodoItem(listInput);
-//        } else if (listInput.length() >= 8 && listInput.substring(0, 8).equals("deadline")) {
-//            addDeadlineItem(listInput);
-//        } else if (listInput.length() >= 5 && listInput.substring(0, 5).equals("event")) {
-//            addEventItem(listInput);
-//        } else {
-//            throw new BadInputException("Sorry, don't recognise that input!");
-//        }
     }
     
     private static ArrayList<Task> readFileContents(String filePath) {
@@ -255,6 +268,10 @@ public class Duke {
             try {
                 handleListInput(userInput);
             } catch (BadInputException | InsufficientInfoException e) { //e is a string - the exception message
+                System.out.println(e);
+            } catch (NumberFormatException e) {
+                System.out.println("Please input only an integer after the command.");
+            } catch (Exception e) {
                 System.out.println(e);
             }
 
