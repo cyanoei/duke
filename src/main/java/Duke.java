@@ -136,27 +136,6 @@ public class Duke {
         }
     }
 
-    private static void deleteTask(int i) { //0-indexed
-        try {
-            Task item = tasklist.get(i);
-            tasklist.remove(i); //The original copy is gone :(
-
-            System.out.print("Okay! I've deleted this task: ");
-            System.out.println(item.getDescription());
-
-            if (item.getIsDone()) {
-                System.out.println("The task was completed.");
-            } else {
-                System.out.println("The task was not completed.");
-            }
-
-            listIndex--;
-
-        } catch (IndexOutOfBoundsException e) {
-            printTaskNonexistent();
-        }
-    }
-
     private static void searchForTask(String search) {
         int max = tasklist.size();
         int unfound = 0;
@@ -199,11 +178,6 @@ public class Duke {
             case "event":
                 addEventItem(listInput);
                 break;
-            case "delete": {
-                String number = keyword[1];
-                deleteTask(Integer.parseInt(number) - 1); //Decrement by 1 to fit the 0-indexed ArrayList.
-                break;
-            }
             case "find": {
                 String search = keyword[1];
                 searchForTask(search);
