@@ -2,7 +2,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -37,13 +36,6 @@ public class Duke {
     private static void setListIndex(int value) {
         listIndex = value;
     }
-
-    //Old tasklist declaration
-//    private void addListItem(String item) {
-//        tasklist[listIndex] = new Task(item, listIndex); //Use the constructor to create a new Task. Saved index starts from 1.
-//        System.out.println("Item added: " + item);
-//        setListIndex(listIndex + 1); //Increment the index
-//    }
 
     /*TODO Strip descriptions of leading/trailing spaces before submitting
         Accept multiple space delimiter to take the first word...?
@@ -139,7 +131,6 @@ public class Duke {
     private static void searchForTask(String search) {
         int max = tasklist.size();
         int unfound = 0;
-        ArrayList<Task> found = new ArrayList<>();
 
         for (int i = 0; i < max; i ++) {
             if (tasklist.get(i).getDescription().contains(search)) {
@@ -152,7 +143,8 @@ public class Duke {
 
         if (unfound == max) {
             System.out.println("Sorry, I could not find any tasks containing the description \"" + search + "\"." );
-        }
+            System.out.println("Please try a different search string.");
+        } 
 
     }
 
