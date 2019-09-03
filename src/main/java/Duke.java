@@ -98,6 +98,27 @@ public class Duke {
         }
     }
 
+    private static void deleteTask(int i){
+        try{
+            Task item = tasklist.get(i);
+            tasklist.remove(i); //The original copy is gone.
+
+            System.out.print("Okay! I've deleted this task: ");
+            System.out.println(item.getDescription());
+
+            if (item.getIsDone()) {
+                System.out.println("The task was completed.");
+            } else {
+                System.out.println("The task was not completed.");
+            }
+            listIndex--;
+
+        } catch(IndexOutOfBoundsException e){
+            System.out.println("Sorry, that task number does not exist!");
+            //Offer the tasklist.
+        }
+    }
+
     private static void printList() {
         int max = tasklist.size();
         if (max == 0) {
@@ -132,9 +153,13 @@ public class Duke {
             addDeadlineItem(listInput);
         } else if (keyword[0].equals("event")) {
             addEventItem(listInput);
+        } else if (keyword[0].equals("delete")){
+            String number = keyword[1];
+            deleteTask(Integer.parseInt(number) - 1);
         } else {
             throw new BadInputException("Sorry, I don't recognise that input!");
         }
+
     }
 
     private static ArrayList<Task> readFileContents(String filePath) {
