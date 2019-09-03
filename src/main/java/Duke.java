@@ -37,13 +37,6 @@ public class Duke {
         listIndex = value;
     }
 
-    //Old tasklist declaration
-//    private void addListItem(String item) {
-//        tasklist[listIndex] = new Task(item, listIndex); //Use the constructor to create a new Task. Saved index starts from 1.
-//        System.out.println("Item added: " + item);
-//        setListIndex(listIndex + 1); //Increment the index
-//    }
-
     /*TODO Strip descriptions of leading/trailing spaces before submitting
         Accept mutiple space delimiter to take the first word...?
     * */
@@ -124,18 +117,6 @@ public class Duke {
         System.out.println(tasklist.get(i).getDescription()); //Prints task name
     }
 
-    private static void deleteTask(int i) { //0-indexed
-        System.out.print("Okay! I've deleted this task: ");
-        System.out.println(tasklist.get(i).getDescription());
-
-        if (tasklist.get(i).getIsDone()) System.out.println("The task was completed.");
-        else System.out.println("The task was not completed.");
-
-        tasklist.remove(i);
-
-        listIndex--;
-    }
-
     private static void handleListInput(String listInput) throws BadInputException, InsufficientInfoException {
 
         String keyword[] = listInput.split(" ", 2);
@@ -151,29 +132,11 @@ public class Duke {
             addDeadlineItem(listInput);
         } else if (keyword[0].equals("event")) {
             addEventItem(listInput);
-        } else if (keyword[0].equals("delete")) {
-            String number = keyword[1];
-            deleteTask(Integer.parseInt(number) - 1); //Decrement by 1 to fit the 0-indexed ArrayList.
         } else {
             throw new BadInputException("Sorry, I don't recognise that input!");
         }
-
-//        if (listInput.length() >= 4 && listInput.substring(0, 4).equals("list")) { //Both "list" and "list " will now be the right command.
-//            printList();
-//        } else if (listInput.length() >= 4 && listInput.substring(0, 4).equals("done")) { //Modified to include the space after done.
-//            String number = listInput.substring(5);
-//            markTaskAsDone(Integer.parseInt(number) - 1); //Decrement by 1 to fit the 0-indexed ArrayList.
-//        } else if (listInput.length() >= 4 && listInput.substring(0, 4).equals("todo")) {
-//            addTodoItem(listInput);
-//        } else if (listInput.length() >= 8 && listInput.substring(0, 8).equals("deadline")) {
-//            addDeadlineItem(listInput);
-//        } else if (listInput.length() >= 5 && listInput.substring(0, 5).equals("event")) {
-//            addEventItem(listInput);
-//        } else {
-//            throw new BadInputException("Sorry, don't recognise that input!");
-//        }
     }
-    
+
     private static ArrayList<Task> readFileContents(String filePath) {
         ArrayList<Task> savedList = new ArrayList<>();
         //Task[] savedList = new Task[100];
