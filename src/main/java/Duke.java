@@ -151,18 +151,17 @@ public class Duke {
 
     private static void searchForTask(String search) {
         int max = tasklist.size();
-        int unfound = 0;
+        boolean found = false;
 
         for (int i = 0; i < max; i ++) {
             if (tasklist.get(i).getDescription().contains(search)) {
                 System.out.print(i+1 + ". " ); //Print the index of the task.
                 tasklist.get(i).printTaskDetails();
-            } else {
-                unfound++;
+                found = true;
             }
         }
 
-        if (unfound == max) {
+        if (!found) {
             System.out.println("Sorry, I could not find any tasks containing the description \"" + search + "\"." );
             System.out.println("Please try a different search string.");
         }
