@@ -202,78 +202,14 @@ public class Duke {
 
     }
 
-    private static ArrayList<Task> readFileContents(String filePath) {
-        ArrayList<Task> savedList = new ArrayList<>();
-        //Task[] savedList = new Task[100];
-
-        int i = 0;
-        File f = new File(filePath); // create a File for the given file path
-        
-        try {
-            Scanner s = new Scanner(f); // create a Scanner using the File as the source
-            while (s.hasNext()) {
-                String itemRaw = s.nextLine();
-                String[] item = itemRaw.split("/", 4);
-
-                switch (item[0]) {
-                    case "T":
-                        savedList.add(new Todo(item[2], i));
-
-                        break;
-                    case "D":
-                        savedList.add(new Deadline(item[2], item[3], i));
-
-                        break;
-                    case "E":
-                        savedList.add(new Event(item[2], item[3], i));
-
-                        break;
-                    default:
-                        //throw an exception 
-                        System.out.println("An exception will be thrown here eventually.");
-                        break;
-                }
-                
-                if (item[1].equals("1")) {
-                    savedList.get(i).markAsDone();  //ArrayList indexing starts from 0.
-                }
-                
-                i++; //Increment counter! 
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("Save file not found. New list will be created instead.");
-        }
-        
-        setListIndex(i); //Point to the next available task number; 
-        
-        return savedList; //Returns an array of Task objects 
-    }
-
-    private static void writeToFile(String filePath, String textToAdd) throws IOException {
-        FileWriter fw = new FileWriter(filePath);
-        fw.write(textToAdd);
-        fw.close();
-    }
-
-    private static void saveFileContents(String filePath) {
-        StringBuilder tasksToSave = new StringBuilder();
-        for (int i = 0; i < listIndex; i++) { //index starts from 0.
-            tasksToSave.append(tasklist.get(i).saveDetailsString()).append(System.lineSeparator());
-        }
-
-        String taskListToSave = tasksToSave.toString();
-        try {
-            writeToFile(filePath, taskListToSave);
-        } catch (IOException e) {
-            System.out.println("Something went wrong saving the file :(");
-        }
-    }
-    
     public static void main(String[] args) throws IOException {
         printIntro();
 
         String saveFile = "/Users/rebecca/Documents/NUS/CS2113T/Project/duke/data/saved_tasks.txt";
-        tasklist = readFileContents(saveFile);
+
+        Storage storage = new Storage();
+
+        tasklist = Storage.readFileContents(saveFile);
 
         Scanner in = new Scanner(System.in);
         String userInput = in.nextLine();
@@ -295,7 +231,7 @@ public class Duke {
             userInput = in.nextLine();
         }
 
-        saveFileContents(saveFile);
+        storage.saveFileContents(tasklist, saveFile);
         printExitMessage();
     }
 }
