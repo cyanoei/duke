@@ -37,13 +37,6 @@ public class Duke {
         listIndex = value;
     }
 
-    //Old tasklist declaration
-//    private void addListItem(String item) {
-//        tasklist[listIndex] = new Task(item, listIndex); //Use the constructor to create a new Task. Saved index starts from 1.
-//        System.out.println("Item added: " + item);
-//        setListIndex(listIndex + 1); //Increment the index
-//    }
-
     /*TODO Strip descriptions of leading/trailing spaces before submitting
         Accept mutiple space delimiter to take the first word...?
     * */
@@ -124,17 +117,25 @@ public class Duke {
         System.out.println(tasklist.get(i).getDescription()); //Prints task name
     }
 
-    private static void deleteTask(int i) { //0-indexed
-        System.out.print("Okay! I've deleted this task: ");
-        System.out.println(tasklist.get(i).getDescription());
+    private static void searchForTask(String search) {
+        int max = tasklist.size();
+        int unfound = 0;
 
-        if (tasklist.get(i).getIsDone()) System.out.println("The task was completed.");
-        else System.out.println("The task was not completed.");
+        for (int i = 0; i < max; i ++) {
+            if (tasklist.get(i).getDescription().contains(search)) {
+                System.out.print(i+1 + ". " ); //Print the index of the task.
+                tasklist.get(i).printTaskDetails();
+            } else {
+                unfound++;
+            }
+        }
 
-        tasklist.remove(i);
-
-        listIndex--;
+        if (unfound == max) {
+            System.out.println("Sorry, I could not find any tasks containing the description \"" + search + "\"." );
+            System.out.println("Please try a different search string.");
+        }
     }
+
 
     private static void handleListInput(String listInput) throws BadInputException, InsufficientInfoException {
 
@@ -151,27 +152,12 @@ public class Duke {
             addDeadlineItem(listInput);
         } else if (keyword[0].equals("event")) {
             addEventItem(listInput);
-        } else if (keyword[0].equals("delete")) {
-            String number = keyword[1];
-            deleteTask(Integer.parseInt(number) - 1); //Decrement by 1 to fit the 0-indexed ArrayList.
+        } else if (keyword[0].equals("find")) {
+            searchForTask(keyword[1]);
         } else {
             throw new BadInputException("Sorry, I don't recognise that input!");
         }
 
-//        if (listInput.length() >= 4 && listInput.substring(0, 4).equals("list")) { //Both "list" and "list " will now be the right command.
-//            printList();
-//        } else if (listInput.length() >= 4 && listInput.substring(0, 4).equals("done")) { //Modified to include the space after done.
-//            String number = listInput.substring(5);
-//            markTaskAsDone(Integer.parseInt(number) - 1); //Decrement by 1 to fit the 0-indexed ArrayList.
-//        } else if (listInput.length() >= 4 && listInput.substring(0, 4).equals("todo")) {
-//            addTodoItem(listInput);
-//        } else if (listInput.length() >= 8 && listInput.substring(0, 8).equals("deadline")) {
-//            addDeadlineItem(listInput);
-//        } else if (listInput.length() >= 5 && listInput.substring(0, 5).equals("event")) {
-//            addEventItem(listInput);
-//        } else {
-//            throw new BadInputException("Sorry, don't recognise that input!");
-//        }
     }
     
     private static ArrayList<Task> readFileContents(String filePath) {
@@ -261,10 +247,6 @@ public class Duke {
             printNewLine();
             userInput = in.nextLine();
         }
-
-        //userInput = in.nextLine();
-        //Date hello = new Date(userInput);
-        //hello.printFormattedDate();
 
         saveFileContents("data/saved_tasks.txt");
         printExitMessage();

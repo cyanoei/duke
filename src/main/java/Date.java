@@ -10,11 +10,15 @@ public class Date {
     public Date(String dateAndTime) {
         String[] details = dateAndTime.split("[ /]");
 
-        day = Integer.parseInt(details[0]);
-        month = Integer.parseInt(details[1]);
-        year = Integer.parseInt(details[2]);
-        hour = Integer.parseInt(details[3].substring(0,2));
-        minute = details[3].substring(2);
+        try {
+            day = Integer.parseInt(details[0]);
+            month = Integer.parseInt(details[1]);
+            year = Integer.parseInt(details[2]);
+            hour = Integer.parseInt(details[3].substring(0, 2));
+            minute = details[3].substring(2);
+        } catch (NumberFormatException e) {
+            System.out.println("Sorry, that date input is not recognised.");
+        }
     }
 
     public int getDay() {
