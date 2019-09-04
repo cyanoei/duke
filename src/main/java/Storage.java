@@ -6,9 +6,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Storage {
+    private static String filePath;
     //Write and read functions
 
-    public static ArrayList<Task> readFileContents(String filePath) {
+    public Storage(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public static ArrayList<Task> readFileContents() {
         ArrayList<Task> savedList = new ArrayList<>();
         //Task[] savedList = new Task[100];
 
@@ -55,13 +60,13 @@ public class Storage {
         return savedList; //Returns an array of Task objects
     }
 
-    private static void writeToFile(String filePath, String textToAdd) throws IOException {
+    private static void writeToFile(String textToAdd) throws IOException {
         FileWriter fw = new FileWriter(filePath);
         fw.write(textToAdd);
         fw.close();
     }
 
-    public static void saveFileContents(ArrayList<Task> taskList, String filePath) {
+    public static void saveFileContents(ArrayList<Task> taskList) {
         StringBuilder tasksToSave = new StringBuilder();
         int max = taskList.size();
         for (int i = 0; i < max; i++) { //index starts from 0.
@@ -70,13 +75,11 @@ public class Storage {
 
         String taskListToSave = tasksToSave.toString();
         try {
-            writeToFile(filePath, taskListToSave);
+            writeToFile(taskListToSave);
         } catch (IOException e) {
             System.out.println("Something went wrong saving the file :(");
         }
     }
 
 
-    //Should pass out the read item to main to pass to tasklist
-    //Tasklist passes the task array to write
 }

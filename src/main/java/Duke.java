@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Duke {
+    private static Storage storage;
+
     private static ArrayList<Task> tasklist = new ArrayList<>();
 
     //Consider not using the listIndex anymore?
@@ -191,6 +193,7 @@ public class Duke {
             case "delete": {
                 String number = keyword[1];
                 deleteTask(Integer.parseInt(number) - 1);
+                break;
             }
             case "find": {
                 searchForTask(keyword[1]);
@@ -207,9 +210,9 @@ public class Duke {
 
         String saveFile = "/Users/rebecca/Documents/NUS/CS2113T/Project/duke/data/saved_tasks.txt";
 
-        Storage storage = new Storage();
+        storage = new Storage(saveFile);
 
-        tasklist = Storage.readFileContents(saveFile);
+        tasklist = Storage.readFileContents();
 
         Scanner in = new Scanner(System.in);
         String userInput = in.nextLine();
@@ -219,10 +222,10 @@ public class Duke {
 
             try {
                 handleListInput(userInput);
-            } catch (BadInputException | InsufficientInfoException e) { //e is a string - the exception message
-                System.out.println(e);
             } catch (NumberFormatException e) {
                 System.out.println("Please input only an integer after the command.");
+            } catch (BadInputException | InsufficientInfoException e) { //e is a string - the exception message
+                System.out.println(e);
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -231,7 +234,7 @@ public class Duke {
             userInput = in.nextLine();
         }
 
-        storage.saveFileContents(tasklist, saveFile);
+        storage.saveFileContents(tasklist);
         printExitMessage();
     }
 }
