@@ -15,7 +15,6 @@ public class Storage {
 
     public static ArrayList<Task> readFileContents() {
         ArrayList<Task> savedList = new ArrayList<>();
-        //Task[] savedList = new Task[100];
 
         int i = 0;
         File f = new File(filePath); // create a File for the given file path
@@ -54,8 +53,6 @@ public class Storage {
         } catch (FileNotFoundException e) {
             System.out.println("Save file not found. New list will be created instead.");
         }
-
-        //setListIndex(i); //Should not require anymore.
 
         return savedList; //Returns an array of Task objects
     }
