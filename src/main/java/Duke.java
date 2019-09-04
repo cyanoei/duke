@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public class Duke {
     private static Storage storage;
+    private static Parser parser;
 
     private static ArrayList<Task> tasklist = new ArrayList<>();
 
@@ -168,73 +169,33 @@ public class Duke {
         }
     }
 
-    private static void handleListInput(String listInput) throws BadInputException, InsufficientInfoException, NumberFormatException {
-
-        String[] keyword = listInput.split(" ", 2);
-
-        switch (keyword[0]) {
-            case "list":
-                printList();
-                break;
-            case "done": {
-                String number = keyword[1];
-                markTaskAsDone(Integer.parseInt(number) - 1); //Decrement by 1 to fit the 0-indexed ArrayList.
-                break;
-            }
-            case "todo":
-                addTodoItem(listInput);
-                break;
-            case "deadline":
-                addDeadlineItem(listInput);
-                break;
-            case "event":
-                addEventItem(listInput);
-                break;
-            case "delete": {
-                String number = keyword[1];
-                deleteTask(Integer.parseInt(number) - 1);
-                break;
-            }
-            case "find": {
-                searchForTask(keyword[1]);
-                break;
-            }
-            default:
-                throw new BadInputException("Sorry, I don't recognise that input keyword!");
-        }
-
-    }
-
     public static void main(String[] args) throws IOException {
         printIntro();
 
         String saveFile = "/Users/rebecca/Documents/NUS/CS2113T/Project/duke/data/saved_tasks.txt";
 
+        //Read in saved file.
         storage = new Storage(saveFile);
-
         tasklist = Storage.readFileContents();
 
+        //Start parsing user input.
         Scanner in = new Scanner(System.in);
-        String userInput = in.nextLine();
-        
-        while (!userInput.equals("bye")) {
-            printNewLine();
+        parser = new Parser(in);
 
-            try {
-                handleListInput(userInput);
-            } catch (NumberFormatException e) {
-                System.out.println("Please input only an integer after the command.");
-            } catch (BadInputException | InsufficientInfoException e) { //e is a string - the exception message
-                System.out.println(e);
-            } catch (Exception e) {
-                System.out.println(e);
-            }
+        String[] command;
 
-            printNewLine();
-            userInput = in.nextLine();
-        }
+        //Should probably wrap this in the UI class.
+        do {
+            command = parser.parse();
 
+        } while (!command[0].equals("bye"));
+
+        //
+
+        //Save tasklist.
         storage.saveFileContents(tasklist);
+
+
         printExitMessage();
     }
 }

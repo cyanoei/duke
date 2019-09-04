@@ -1,4 +1,7 @@
 public class Ui {
+
+    //HANDLES NEW LINES
+
     //Called by main
 
     //Welcome message
