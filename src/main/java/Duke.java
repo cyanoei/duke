@@ -99,6 +99,19 @@ public class Duke {
         }
     }
 
+    private static void printList() {
+        int max = tasklist.size();
+        if (max == 0) {
+            System.out.println("The list is currently empty.");
+            return;
+        }
+
+        for (int i = 0; i < max; i++) { //Index starts from 0.
+            System.out.print(i+1 + ". "); //Add 1 to follow natural numbers.
+            tasklist.get(i).printTaskDetails();
+        }
+    }
+
     private static void deleteTask(int i){
         try{
             Task item = tasklist.get(i);
@@ -115,27 +128,8 @@ public class Duke {
             listIndex--;
 
         } catch(IndexOutOfBoundsException e){
-            System.out.println("Sorry, that task number does not exist!");
-            //Offer the tasklist.
+            printTaskNonexistent();
         }
-    }
-
-    private static void printList() {
-        int max = tasklist.size();
-        if (max == 0) {
-            System.out.println("The list is currently empty.");
-            return;
-        }
-
-        for (int i = 0; i < max; i++) { //Index starts from 0.
-            System.out.print(i+1 + ". "); //Add 1 to follow natural numbers.
-            tasklist.get(i).printTaskDetails();
-        }
-    }
-
-    private static void printTaskNonexistent() {
-        System.out.println("That task doesn't exist! Please check the available tasks again: ");
-        printList();
     }
 
     private static void markTaskAsDone(int i) throws IndexOutOfBoundsException{
@@ -147,6 +141,11 @@ public class Duke {
         } catch (IndexOutOfBoundsException e) {
             printTaskNonexistent();
         }
+    }
+
+    private static void printTaskNonexistent() {
+        System.out.println("That task doesn't exist! Please check the available tasks again: ");
+        printList();
     }
 
     private static void searchForTask(String search) {
