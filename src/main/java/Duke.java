@@ -149,6 +149,25 @@ public class Duke {
         }
     }
 
+    private static void searchForTask(String search) {
+        int max = tasklist.size();
+        int unfound = 0;
+
+        for (int i = 0; i < max; i ++) {
+            if (tasklist.get(i).getDescription().contains(search)) {
+                System.out.print(i+1 + ". " ); //Print the index of the task.
+                tasklist.get(i).printTaskDetails();
+            } else {
+                unfound++;
+            }
+        }
+
+        if (unfound == max) {
+            System.out.println("Sorry, I could not find any tasks containing the description \"" + search + "\"." );
+            System.out.println("Please try a different search string.");
+        }
+    }
+
     private static void handleListInput(String listInput) throws BadInputException, InsufficientInfoException, NumberFormatException {
 
         String[] keyword = listInput.split(" ", 2);
@@ -175,9 +194,14 @@ public class Duke {
                 String number = keyword[1];
                 deleteTask(Integer.parseInt(number) - 1);
             }
+            case "find": {
+                searchForTask(keyword[1]);
+                break;
+            }
             default:
                 throw new BadInputException("Sorry, I don't recognise that input keyword!");
         }
+
     }
 
     private static ArrayList<Task> readFileContents(String filePath) {
@@ -271,10 +295,6 @@ public class Duke {
             printNewLine();
             userInput = in.nextLine();
         }
-
-        //userInput = in.nextLine();
-        //Date hello = new Date(userInput);
-        //hello.printFormattedDate();
 
         saveFileContents("data/saved_tasks.txt");
         printExitMessage();
