@@ -272,7 +272,8 @@ public class Duke {
     public static void main(String[] args) throws IOException {
         printIntro();
 
-        tasklist = readFileContents("data/saved_tasks.txt");
+        String saveFile = "/Users/rebecca/Documents/NUS/CS2113T/Project/duke/data/saved_tasks.txt";
+        tasklist = readFileContents(saveFile);
 
         Scanner in = new Scanner(System.in);
         String userInput = in.nextLine();
@@ -294,7 +295,7 @@ public class Duke {
             userInput = in.nextLine();
         }
 
-        saveFileContents("data/saved_tasks.txt");
+        saveFileContents(saveFile);
         printExitMessage();
     }
 }
