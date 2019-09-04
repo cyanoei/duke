@@ -191,6 +191,7 @@ public class Duke {
             case "delete": {
                 String number = keyword[1];
                 deleteTask(Integer.parseInt(number) - 1);
+                break;
             }
             case "find": {
                 searchForTask(keyword[1]);
