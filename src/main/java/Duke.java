@@ -99,6 +99,27 @@ public class Duke {
         }
     }
 
+    private static void deleteTask(int i){
+        try{
+            Task item = tasklist.get(i);
+            tasklist.remove(i); //The original copy is gone.
+
+            System.out.print("Okay! I've deleted this task: ");
+            System.out.println(item.getDescription());
+
+            if (item.getIsDone()) {
+                System.out.println("The task was completed.");
+            } else {
+                System.out.println("The task was not completed.");
+            }
+            listIndex--;
+
+        } catch(IndexOutOfBoundsException e){
+            System.out.println("Sorry, that task number does not exist!");
+            //Offer the tasklist.
+        }
+    }
+
     private static void printList() {
         int max = tasklist.size();
         if (max == 0) {
@@ -128,30 +149,10 @@ public class Duke {
         }
     }
 
-    private static void searchForTask(String search) {
-        int max = tasklist.size();
-        int unfound = 0;
-
-        for (int i = 0; i < max; i ++) {
-            if (tasklist.get(i).getDescription().contains(search)) {
-                System.out.print(i+1 + ". " ); //Print the index of the task.
-                tasklist.get(i).printTaskDetails();
-            } else {
-                unfound++;
-            }
-        }
-
-        if (unfound == max) {
-            System.out.println("Sorry, I could not find any tasks containing the description \"" + search + "\"." );
-            System.out.println("Please try a different search string.");
-        } 
-
-    }
-
     private static void handleListInput(String listInput) throws BadInputException, InsufficientInfoException, NumberFormatException {
 
         String[] keyword = listInput.split(" ", 2);
-        //System.out.println(keyword[1]);
+
         switch (keyword[0]) {
             case "list":
                 printList();
@@ -170,16 +171,15 @@ public class Duke {
             case "event":
                 addEventItem(listInput);
                 break;
-            case "find": {
-                String search = keyword[1];
-                searchForTask(search);
-                break;
+            case "delete": {
+                String number = keyword[1];
+                deleteTask(Integer.parseInt(number) - 1);
             }
             default:
                 throw new BadInputException("Sorry, I don't recognise that input keyword!");
         }
     }
-    
+
     private static ArrayList<Task> readFileContents(String filePath) {
         ArrayList<Task> savedList = new ArrayList<>();
         //Task[] savedList = new Task[100];
