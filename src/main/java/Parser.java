@@ -24,7 +24,6 @@ public class Parser {
 
             //Commands which require numerical input.
             case "done":
-            case "todo":
             case "delete": {
                 try {
                     Integer.parseInt(keyword[1]);  //TODO: Improve this.
@@ -37,6 +36,7 @@ public class Parser {
             }
 
             //Commands which require string input.
+            case "todo":
             case "deadline":
             case "event":
             case "find": {
@@ -58,6 +58,7 @@ public class Parser {
             }
 
             default:
+                command[0] = null;
                 throw new BadInputException("Sorry, I don't recognise that input keyword!");
         }
         return command;
@@ -68,12 +69,16 @@ public class Parser {
 
         String[] command;
         command = new String[2];
+
+
+        //TODO: Make this a do-while that waits for a good input
         try {
             command = handleListInput(userInput);
         } catch (NumberFormatException e) {
             System.out.println("Please input only an integer after the command.");
             command[0] = null;
         } catch (Exception e) { //e is a string - the exception message
+            System.out.println("Parser error.");
             System.out.println(e);
             command[0] = null;
         }
