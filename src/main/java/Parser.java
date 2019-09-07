@@ -1,5 +1,10 @@
 import java.util.Scanner;
 
+/**
+ * Interprets command strings by the user.
+ * Todo: Converts command strings into command objects that can be processed at the level of the duke class.
+ */
+
 public class Parser {
 
     private String userInput;
@@ -9,6 +14,15 @@ public class Parser {
         this.in = new Scanner(System.in);
     }
 
+    /**
+     * Checks if the command keyword (first word is valid).
+     * Determines what to do with the remaining string depending on the command.
+     * Also handles exceptions for bad description string inputs.
+     *
+     * @param listInput array containing the command and description from the user.
+     * @return an array where the first item is the command word and the second item is the rest of the text.
+     * @throws BadInputException If the first word is not one of the recognised commands.
+     */
     private String[] handleListInput(String listInput) throws BadInputException {
 
         String[] keyword = listInput.split(" ", 2);
@@ -64,7 +78,15 @@ public class Parser {
         return command;
     }
 
+    /**
+     * Reads in the command string from the user and looks at the first word.
+     * The first word and any remaining characters are separated and passed to the handler.
+     *
+     * @return an array where the first item is the command word and the second item is the rest of the text.
+     */
     public String[] parse() {
+
+
         userInput = in.nextLine();
 
         String[] command;

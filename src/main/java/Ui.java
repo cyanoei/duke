@@ -1,3 +1,9 @@
+/**
+ * Manages the UI of Duke.
+ * Prints intro and exit messages, and the standard newline.
+ * Todo: should be in charge of taking user input, rather than the parser.
+ */
+
 public class Ui {
 
     public void printIntro() {
