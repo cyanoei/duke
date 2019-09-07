@@ -9,17 +9,22 @@ public class Task {
     protected String description;
     protected int taskIndex;
     protected boolean isDone;
+    protected TaskType type;
 
+    protected enum TaskType {
+        TODO, DEADLINE, EVENT
+    }
 
     public Task() {
         this.description = "None";
         this.isDone = false;
     }
 
-    public Task(String description, int taskIndex) {
+    public Task(String description, int taskIndex, TaskType type) {
         this.description = description;
         this.taskIndex = taskIndex;
         this.isDone = false;
+        this.type = type;
     }
 
     public String getDescription() {
