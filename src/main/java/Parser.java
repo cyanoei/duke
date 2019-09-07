@@ -2,14 +2,14 @@ import java.util.Scanner;
 
 public class Parser {
 
-    private static String userInput;
-    private static Scanner in;
+    private String userInput;
+    private Scanner in;
 
     public Parser(Scanner in) {
         this.in = in;
     }
 
-    private static String[] handleListInput(String listInput) throws BadInputException {
+    private String[] handleListInput(String listInput) throws BadInputException {
 
         String[] keyword = listInput.split(" ", 2);
         String[] command = new String[2];
@@ -64,7 +64,7 @@ public class Parser {
         return command;
     }
 
-    public static String[] parse() {
+    public String[] parse() {
         userInput = in.nextLine();
 
         String[] command;
