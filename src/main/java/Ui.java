@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 /**
  * Manages the UI of Duke.
  * Prints intro and exit messages, and the standard newline.
@@ -5,6 +7,12 @@
  */
 
 public class Ui {
+
+    private Scanner in;
+
+    public Ui() {
+        this.in = new Scanner(System.in);
+    }
 
     public void printIntro() {
         String logo = " ____        _        \n"
@@ -28,5 +36,8 @@ public class Ui {
         printNewLine();
     }
 
+    public String read() {
+        return in.nextLine();
+    }
 
 }

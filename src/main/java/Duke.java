@@ -34,13 +34,14 @@ public class Duke {
     private void run() {
         ui.printIntro();
 
+        String userInput;
         String[] command;
 
         //Should probably wrap this in the UI class.
         do {
             ui.printNewLine();
-            command = parser.parse();
-            //ui.printNewLine();
+            userInput = ui.read();
+            command = parser.parse(userInput);
             taskList.handleListInput(command); //Should only be passed good inputs.
         } while (!command[0].equals("bye"));
 

@@ -7,11 +7,11 @@ import java.util.Scanner;
 
 public class Parser {
 
-    private Scanner in;
-
-    public Parser() {
-        this.in = new Scanner(System.in);
-    }
+//    private Scanner in;
+//
+//    public Parser() {
+//        this.in = new Scanner(System.in);
+//    }
 
     /**
      * Checks if the command keyword (first word is valid).
@@ -83,8 +83,7 @@ public class Parser {
      *
      * @return an array where the first item is the command word and the second item is the rest of the text.
      */
-    public String[] parse() {
-        String userInput = in.nextLine(); //Todo: Should be the Ui's problem
+    public String[] parse(String userInput) {
 
         String[] command;
         command = new String[2];
