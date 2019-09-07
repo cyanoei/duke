@@ -2,7 +2,6 @@ import java.util.Scanner;
 
 public class Parser {
 
-    private String userInput;
     private Scanner in;
 
     public Parser() {
@@ -65,13 +64,14 @@ public class Parser {
     }
 
     public String[] parse() {
-        userInput = in.nextLine();
+        String userInput = in.nextLine(); //Todo: Should be the Ui's problem
 
         String[] command;
         command = new String[2];
 
 
         //TODO: Make this a do-while that waits for a good input
+        //TODO: Shift this implementation to the Ui class
         try {
             command = handleListInput(userInput);
         } catch (NumberFormatException e) {

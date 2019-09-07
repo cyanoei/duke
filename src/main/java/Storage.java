@@ -13,7 +13,7 @@ public class Storage {
         this.filePath = filePath;
     }
 
-    public ArrayList<Task> readFileContents() {
+    public ArrayList<Task> load() {
         ArrayList<Task> savedList = new ArrayList<>();
 
         int i = 0;
@@ -63,7 +63,7 @@ public class Storage {
         fw.close();
     }
 
-    public void saveFileContents(ArrayList<Task> taskList) {
+    public void save(ArrayList<Task> taskList) {
         StringBuilder tasksToSave = new StringBuilder();
         int max = taskList.size();
         for (int i = 0; i < max; i++) { //index starts from 0.

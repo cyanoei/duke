@@ -21,7 +21,7 @@ public class Duke {
     private Duke(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
-        taskList = new TaskList(storage.readFileContents()); //Will always return the right object even if empty.
+        taskList = new TaskList(storage.load()); //Will always return the right object even if empty.
         parser = new Parser();
     }
 
@@ -39,7 +39,7 @@ public class Duke {
         } while (!command[0].equals("bye"));
 
         //Save tasklist.
-        storage.saveFileContents(taskList.getTaskList());
+        storage.save(taskList.getTaskList());
 
         ui.printExitMessage();
     }
