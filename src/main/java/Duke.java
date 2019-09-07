@@ -22,14 +22,11 @@ public class Duke {
         ui = new Ui();
         storage = new Storage(filePath);
         taskList = new TaskList(storage.readFileContents()); //Will always return the right object even if empty.
+        parser = new Parser();
     }
 
     private void run() {
         ui.printIntro();
-
-        //Start parsing user input.
-        Scanner in = new Scanner(System.in);
-        parser = new Parser(in);
 
         String[] command;
 
