@@ -1,9 +1,14 @@
 import java.text.SimpleDateFormat;
 
+/**
+ * Task is an abstract class that stores the description and done status of a task.
+ * Is extended by Todo, Deadline and Event classes.
+ */
+
 public class Task {
-    private String description;
-    private int taskIndex;
-    private boolean isDone;
+    protected String description;
+    protected int taskIndex;
+    protected boolean isDone;
 
 
     public Task() {
@@ -38,6 +43,11 @@ public class Task {
     }
 
     public String saveDetailsString() {
+        /**
+         * Method that returns a string with the details for saving to file.
+         * @return a string which contains the details in a fixed format.
+         */
+
         String done;
         if (this.isDone) done = "1";
         else done = "0";
@@ -47,6 +57,10 @@ public class Task {
     }
 
     public void markAsDone() {
+        /**
+         * Marks the task as done. This occurs one-way; the task cannot be unmarked.
+         * @return Nothing.
+         */
         this.isDone = true;
     }
 
@@ -59,6 +73,11 @@ public class Task {
 
     @Override
     public String toString() {
+        /**
+         * toString method overridden to return the a description string.
+         * This string presents the task information in a readable format.
+         * @return the task details.
+         */
         return getStatusIcon() + " " + description; //eg. [✓] read book
     }
 }

@@ -1,6 +1,12 @@
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * Duke is a task list that supports 3 types of classes - Todos, deadlines and events.
+ * Tasks can be added, marked as done, searched for, and deleted.
+ * Tasks are loaded from and saved to file.
+ */
+
 public class Duke {
     private static Storage storage;
     private static Parser parser;
