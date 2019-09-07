@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Handles reading and writing the tasklist to file.
+ */
+
 public class Storage {
     private String filePath;
     //Write and read functions

@@ -1,3 +1,9 @@
+/**
+ * The least detailed task is the todo,
+ * which consists of a deadline and done status.
+ * It is effectively the (parent) Task class with a different print and save string.
+ */
+
 public class Todo extends Task {
 
     // Do we even need this?

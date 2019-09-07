@@ -1,3 +1,8 @@
+/**
+ * In addition to the deadline and done status (inherited from Task),
+ * the Event has a start time (and later, end time) that is represented by a date class.
+ * The save and print strings have been overridden to show more information.
+ */
 public class Event extends Task {
 
     private String start;

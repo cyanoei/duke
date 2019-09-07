@@ -1,5 +1,11 @@
 import java.util.ArrayList;
 
+/**
+ * Manages the list of (different types of classes),
+ * including all the methods to modify the list:
+ * Adding each of the 3 types, print, delete, mark as done, search.
+ */
+
 public class TaskList {
     private ArrayList<Task> taskList;
     private int listIndex;
@@ -26,6 +32,13 @@ public class TaskList {
         listIndex = value;
     }
 
+    /**
+     * Adds a todo item to the list and prints a confirmation.
+     *
+     * @param todoitem the description of the task.
+     * @return Nothing.
+     * @throws InsufficientInfoException  If description is blank.
+     */
     private void addTodoItem(String todoitem) throws InsufficientInfoException {
         taskList.add(new Todo(todoitem, listIndex)); //Use the constructor to create a new Task. Saved index starts from 1.
         System.out.println("Todo item added: " + todoitem);
@@ -45,6 +58,13 @@ public class TaskList {
 //        }
     }
 
+    /**
+     * Adds a deadline item to the list and prints a confirmation.
+     *
+     * @param item the description of the task.
+     * @return Nothing.
+     * @throws InsufficientInfoException  If description is blank, or if the deadline is not provided.
+     */
     private void addDeadlineItem(String item) throws InsufficientInfoException {
         String[] deadline = item.split("/by ");
 
@@ -69,6 +89,13 @@ public class TaskList {
 //        }
     }
 
+    /**
+     * Adds an event item to the list and prints a confirmation.
+     *
+     * @param item the description of the task.
+     * @return Nothing.
+     * @throws InsufficientInfoException  If description is blank, or if the event has no date.
+     */
     private void addEventItem(String item) throws InsufficientInfoException {
 
         String[] event = item.split("/at ");
@@ -102,6 +129,11 @@ public class TaskList {
 //        }
     }
 
+    /**
+     * Prints the whole list of items.
+     *
+     * @return Nothing.
+     */
     private void printList() {
         int max = taskList.size();
         if (max == 0) {
@@ -115,6 +147,12 @@ public class TaskList {
         }
     }
 
+    /**
+     * Deletes a task of the user's choice.
+     *
+     * @param i the index of the task to be deleted.
+     * @return Nothing.
+     */
     private void deleteTask(int i){
         try{
             Task item = taskList.get(i);
@@ -135,7 +173,13 @@ public class TaskList {
         }
     }
 
-    private void markTaskAsDone(int i) throws IndexOutOfBoundsException{
+    /**
+     * Marks a task as done.
+     *
+     * @param i the index of the task to be marked as done.
+     * @return Nothing.
+     */
+    private void markTaskAsDone(int i) {
 
         try {
             taskList.get(i).markAsDone(); //Mark task as done.
@@ -146,11 +190,23 @@ public class TaskList {
         }
     }
 
+    /**
+     * Prints error message if a nonexistent task index is accessed.
+     * Prints the task list for user to choose again.
+     *
+     * @return Nothing.
+     */
     private void printTaskNonexistent() {
         System.out.println("That task doesn't exist! Please check the available tasks again: ");
         printList();
     }
 
+    /**
+     * Allows the user to search for task descriptions that match a given string.
+     * Prints the list of tasks that match. Alternatively prints a message if none are found.
+     *
+     * @return Nothing.
+     */
     private void searchForTask(String search) {
         int max = taskList.size();
         boolean found = false;
@@ -169,6 +225,12 @@ public class TaskList {
         }
     }
 
+    /**
+     * Determines what to do with the command and executes the corresponding code.
+     *
+     * @param listInput the array with command keyword and description.
+     * @return Nothing.
+     */
     public void handleListInput(String listInput[]) {
         try {
             switch (listInput[0]) {

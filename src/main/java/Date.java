@@ -1,5 +1,10 @@
 //import java.text.SimpleDateFormat;
 
+/**
+ * Stores date and time information by field - day, month, year, hour, minute.
+ * Allows printing of a fancy formatted date.
+ */
+
 public class Date {
     private int day;
     private int month;
