@@ -5,8 +5,8 @@ public class Parser {
     private String userInput;
     private Scanner in;
 
-    public Parser(Scanner in) {
-        this.in = in;
+    public Parser() {
+        this.in = new Scanner(System.in);
     }
 
     private String[] handleListInput(String listInput) throws BadInputException {
