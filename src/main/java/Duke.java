@@ -18,16 +18,14 @@ public class Duke {
         Accept multiple space delimiter to take the first word...?
     * */
 
-
-    public static void main(String[] args) {
+    private Duke(String filePath) {
         ui = new Ui();
+        storage = new Storage(filePath);
+        taskList = new TaskList(storage.readFileContents()); //Will always return the right object even if empty.
+    }
+
+    private void run() {
         ui.printIntro();
-
-        String saveFile = "/Users/rebecca/Documents/NUS/CS2113T/Project/duke/data/saved_tasks.txt";
-
-        //Read in saved file.
-        storage = new Storage(saveFile);
-        taskList = new TaskList(Storage.readFileContents()); //Will always return the right object even if empty.
 
         //Start parsing user input.
         Scanner in = new Scanner(System.in);
@@ -47,5 +45,10 @@ public class Duke {
         storage.saveFileContents(taskList.getTaskList());
 
         ui.printExitMessage();
+    }
+
+    public static void main(String[] args) {
+        String saveFile = "/Users/rebecca/Documents/NUS/CS2113T/Project/duke/data/saved_tasks.txt";
+        new Duke(saveFile).run();
     }
 }
