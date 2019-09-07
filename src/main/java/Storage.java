@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Storage {
-    private static String filePath;
+    private String filePath;
     //Write and read functions
 
     public Storage(String filePath) {
         this.filePath = filePath;
     }
 
-    public static ArrayList<Task> readFileContents() {
+    public ArrayList<Task> readFileContents() {
         ArrayList<Task> savedList = new ArrayList<>();
 
         int i = 0;
@@ -57,13 +57,13 @@ public class Storage {
         return savedList; //Returns an array of Task objects
     }
 
-    private static void writeToFile(String textToAdd) throws IOException {
+    private void writeToFile(String textToAdd) throws IOException {
         FileWriter fw = new FileWriter(filePath);
         fw.write(textToAdd);
         fw.close();
     }
 
-    public static void saveFileContents(ArrayList<Task> taskList) {
+    public void saveFileContents(ArrayList<Task> taskList) {
         StringBuilder tasksToSave = new StringBuilder();
         int max = taskList.size();
         for (int i = 0; i < max; i++) { //index starts from 0.
