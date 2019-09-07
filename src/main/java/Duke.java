@@ -39,7 +39,7 @@ public class Duke {
         do {
             ui.printNewLine();
             command = parser.parse();
-            ui.printNewLine();
+            //ui.printNewLine();
             taskList.handleListInput(command); //Should only be passed good inputs.
         } while (!command[0].equals("bye"));
 

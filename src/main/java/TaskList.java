@@ -173,7 +173,7 @@ public class TaskList {
         try {
             switch (listInput[0]) {
                 case "bye": {
-                    System.out.println("Saving tasklist.");
+                    System.out.println("Exiting and saving tasklist.");
                     break;
                 }
                 case "list":
