@@ -35,15 +35,16 @@ public class Duke {
         ui.printIntro();
 
         String userInput;
-        String[] command;
+        Command command;
 
         //Should probably wrap this in the UI class.
         do {
             ui.printNewLine();
             userInput = ui.read();
             command = parser.parse(userInput);
-            taskList.handleListInput(command); //Should only be passed good inputs.
-        } while (!command[0].equals("bye"));
+            command.execute(taskList, ui);
+            //taskList.handleListInput(command); //Should only be passed good inputs.
+        } while (command.type != Command.CommandType.BYE);
 
         //Save tasklist.
         storage.save(taskList.getTaskList());

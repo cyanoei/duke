@@ -14,13 +14,13 @@ public class AddCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList list, Ui ui) {
+    public void execute(TaskList list, Ui ui)  {
         if (super.type == CommandType.TODO) {
             list.addTodoItem(description);
         } else if (super.type == CommandType.DEADLINE) {
-
+            list.addDeadlineItem(description, details);
         } else if (super.type == CommandType.EVENT) { //
-
+            list.addEventItem(description, details);
         } else {
             System.out.println("Type error.");
         }

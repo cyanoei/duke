@@ -28,6 +28,10 @@ public class TaskList {
         return listIndex;
     }
 
+    public int getSize() {
+        return taskList.size();
+    }
+
     private void setListIndex(int value) {
         listIndex = value;
     }
@@ -49,76 +53,34 @@ public class TaskList {
     /**
      * Adds a deadline item to the list and prints a confirmation.
      *
-     * @param item the description of the task.
-     * @throws InsufficientInfoException  If description is blank, or if the deadline is not provided.
+     * @param deadline the command with the description and deadline of the task.
      */
-    public void addDeadlineItem(String item) throws InsufficientInfoException {
-        String[] deadline = item.split("/by ");
+    public void addDeadlineItem(String description, String deadline) {
+        taskList.add(new Deadline(description, deadline, listIndex)); //Use the constructor to create a new Task. Saved index starts from 1.
+        System.out.println("Deadline item added: " + description);
+        System.out.println("Deadline is: " + deadline);
 
-        if (deadline[0].length() == 0) {
-            throw new InsufficientInfoException("Sorry, the description of a Deadline cannot be blank!");
-        } else if ((deadline.length < 2) || deadline[1].length() == 0) { //If the field is empty or does not exist
-            throw new InsufficientInfoException("Sorry, the Deadline must have a date to be completed /by.");
-        } else {
-            taskList.add(new Deadline(deadline[0], deadline[1], listIndex)); //Use the constructor to create a new Task. Saved index starts from 1.
-            System.out.println("Deadline item added: " + deadline[0]);
-            System.out.println("Deadline is: " + deadline[1]);
-
-            setListIndex(listIndex + 1); //Increment the index
-        }
-//        if (item.length() < 9) { //Guarantees content
-//            throw new InsufficientInfoException("Sorry, the description of a Deadline cannot be blank!");
-//        } else {
-//            String deadline[] = item.substring(9).split("/by ");
-//
-        //x
-//
-//        }
+        setListIndex(listIndex + 1); //Increment the index
     }
 
     /**
      * Adds an event item to the list and prints a confirmation.
      *
-     * @param item the description of the task.
-     * @throws InsufficientInfoException  If description is blank, or if the event has no date.
+     * @param event the description of the task.
+     * @param at the time the event happens.
      */
-    public void addEventItem(String item) throws InsufficientInfoException {
+    public void addEventItem(String event, String at) {
 
-        String[] event = item.split("/at ");
-
-        if (event[0].length() == 0) {
-            throw new InsufficientInfoException("Sorry, the description of an Event cannot be blank!");
-        } else if ((event.length < 2) || event[1].length() == 0) {
-            throw new InsufficientInfoException("Sorry, the event must have a timeframe it happens /at.");
-        } else {
-            taskList.add(new Event(event[0], event[1], listIndex)); //Use the constructor to create a new Task. Saved index starts from 1.
-            System.out.println("Event item added: " + event[0]);
-            System.out.println("Event happens at: " + event[1]);
-            setListIndex(listIndex + 1); //Increment the index
-        }
-
-//        if (item.length() < 6) { //Guarantees content
-//            throw new InsufficientInfoException("Sorry, the description of an Event cannot be blank!");
-//        } else {
-//            String event[] = item.substring(6).split("/at ");
-//
-//            if (event[0].length() == 0) {
-//                throw new InsufficientInfoException("Sorry, the description of an Event cannot be blank!");
-//            } else if ((event.length < 2) || event[1].length() == 0) {
-//                throw new InsufficientInfoException("Sorry, the event must have a timeframe it happens /at.");
-//            } else {
-//                taskList.add(new Event(event[0], event[1], listIndex)); //Use the constructor to create a new Task. Saved index starts from 1.
-//                System.out.println("Event item added: " + event[0]);
-//                System.out.println("Event happens at: " + event[1]);
-//                setListIndex(listIndex + 1); //Increment the index
-//            }
-//        }
+        taskList.add(new Event(event, at, listIndex)); //Use the constructor to create a new Task. Saved index starts from 1.
+        System.out.println("Event item added: " + event);
+        System.out.println("Event happens at: " + at);
+        setListIndex(listIndex + 1); //Increment the index
     }
 
     /**
      * Prints the whole list of items with index numbers.
      */
-    private void printList() {
+    public void printList() {
         int max = taskList.size();
         if (max == 0) {
             System.out.println("The list is currently empty.");
@@ -208,46 +170,46 @@ public class TaskList {
      *
      * @param listInput the array with command keyword and description.
      */
-    public void handleListInput(String listInput[]) {
-        try {
-            switch (listInput[0]) {
-                case "bye": {
-                    System.out.println("Exiting and saving tasklist.");
-                    break;
-                }
-                case "list":
-                    printList();
-                    break;
-                case "done": {
-                    String number = listInput[1];
-                    markTaskAsDone(Integer.parseInt(number) - 1); //Decrement by 1 to fit the 0-indexed ArrayList.
-                    break;
-                }
-                case "todo":
-                    addTodoItem(listInput[1]);
-                    break;
-                case "deadline":
-                    addDeadlineItem(listInput[1]);
-                    break;
-                case "event":
-                    addEventItem(listInput[1]);
-                    break;
-                case "delete": {
-                    String number = listInput[1];
-                    deleteTask(Integer.parseInt(number) - 1);
-                    break;
-                }
-                case "find": {
-                    searchForTask(listInput[1]);
-                    break;
-                }
-                default:
-                    throw new BadInputException("Sorry, I don't recognise that input keyword!");
-            }
-        } catch (Exception e) { //TODO: Improve this.
-            System.out.println(e);
-        }
-
-    }
+//    public void handleListInput(String listInput[]) {
+//        try {
+//            switch (listInput[0]) {
+//                case "bye": {
+//                    System.out.println("Exiting and saving tasklist.");
+//                    break;
+//                }
+//                case "list":
+//                    printList();
+//                    break;
+//                case "done": {
+//                    String number = listInput[1];
+//                    markTaskAsDone(Integer.parseInt(number) - 1); //Decrement by 1 to fit the 0-indexed ArrayList.
+//                    break;
+//                }
+//                case "todo":
+//                    addTodoItem(listInput[1]);
+//                    break;
+//                case "deadline":
+//                    addDeadlineItem(listInput[1]);
+//                    break;
+//                case "event":
+//                    addEventItem(listInput[1]);
+//                    break;
+//                case "delete": {
+//                    String number = listInput[1];
+//                    deleteTask(Integer.parseInt(number) - 1);
+//                    break;
+//                }
+//                case "find": {
+//                    searchForTask(listInput[1]);
+//                    break;
+//                }
+//                default:
+//                    throw new BadInputException("Sorry, I don't recognise that input keyword!");
+//            }
+//        } catch (Exception e) { //TODO: Improve this.
+//            System.out.println(e);
+//        }
+//
+//    }
 
 }

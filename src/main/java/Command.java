@@ -25,7 +25,10 @@ public class Command {
         return type;
     }
 
-    public void execute(TaskList list, Ui ui) {
+    public void execute(TaskList list, Ui ui)  {
+        if (type == CommandType.LIST) {
+            list.printList();
+        }
         //Abstract method
     }
 }

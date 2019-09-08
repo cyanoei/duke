@@ -7,21 +7,49 @@ import java.util.Scanner;
 
 public class Parser {
 
-    //TODO:
+    //May reuse later.
+//    private boolean indexIsValid(TaskList list, int index) {
+//        int max = list.getSize();
+//        return index <= max;
+//    }
 
-    private boolean isInteger(String test) {
-        try {
-            Integer.parseInt(test);  //TODO: Improve this.
-            return true;
-        } catch (NumberFormatException e){
-            return false;
+    private String addTodo(String input) throws InsufficientInfoException {
+        if (input.isBlank()) {
+            throw new InsufficientInfoException("Sorry, the description of a Todo cannot be blank!");
+        } else {
+            return input;
         }
     }
 
+    private String[] addDeadline(String input) throws InsufficientInfoException{
+        String[] deadline = input.split("/by ");
+
+        //Checks if either field is blank.
+        if (deadline[0].isBlank()) {
+            throw new InsufficientInfoException("Sorry, the description of a Deadline cannot be blank!");
+        } else if ((deadline.length < 2) || deadline[1].isBlank()) { //If the field is empty or does not exist
+            throw new InsufficientInfoException("Sorry, the Deadline must have a date to be completed /by.");
+        } else {
+            return deadline;
+        }
+    }
     //functions for each type of thing!
+    private String[] addEvent(String input) throws InsufficientInfoException {
+        String[] event = input.split("/at ");
 
-
-
+        //etc
+//        if (event[0].length() == 0) {
+//            throw new InsufficientInfoException("Sorry, the description of an Event cannot be blank!");
+//        } else if ((event.length < 2) || event[1].length() == 0) {
+//            throw new InsufficientInfoException("Sorry, the event must have a timeframe it happens /at.");
+//        } else {
+//            taskList.add(new Event(event[0], event[1], listIndex)); //Use the constructor to create a new Task. Saved index starts from 1.
+//            System.out.println("Event item added: " + event[0]);
+//            System.out.println("Event happens at: " + event[1]);
+//            setListIndex(listIndex + 1); //Increment the index
+//        }
+        return event;
+    }
     /**
      * Checks if the command keyword (first word is valid).
      * Determines what to do with the remaining string depending on the command.
@@ -31,7 +59,7 @@ public class Parser {
      * @return an array where the first item is the command word and the second item is the rest of the text.
      * @throws BadInputException If the first word is not one of the recognised commands.
      */
-    private Command handleListInput(String listInput) throws BadInputException {
+    private Command handleListInput(String listInput) throws BadInputException, InsufficientInfoException, NumberFormatException {
 
         String[] keyword = listInput.split(" ", 2);
         Command command;
@@ -47,35 +75,41 @@ public class Parser {
 
             //Commands which require numerical input.
             case "done":
-                if (isInteger(keyword[1])) {
+                command = new NumCommand(Command.CommandType.DONE, Integer.parseInt(keyword[1]));
 
-                }
                 break;
             case "delete": {
-                if (isInteger(keyword[1])) {
-
-                }
+                command = new NumCommand(Command.CommandType.DELETE, Integer.parseInt(keyword[1]));
                 break;
             }
 
             //Commands which require string input.
             case "todo":
-            case "deadline":
+                command = new AddCommand(Command.CommandType.TODO, addTodo(keyword[1]), null);
+                break;
+            case "deadline": {
+                String[] temp = addDeadline(keyword[1]);
+                command = new AddCommand(Command.CommandType.DEADLINE, temp[0], temp[1]);
+            }
             case "event":
+                command = new Command(); //TODO: elab
+                break;
             case "find": {
+                command = new Command();  //TODO: elab
                 String description = keyword[1].trim(); //Might need to catch empty string exceptions?
                 if (!description.isBlank()) {
+
                     //command[1] = description;
                 } else {
                     //command[0] = null;
-                    switch (keyword[0]) {
-                        case "deadline":
-                            System.out.println("Please enter the description of the deadline.");
-                        case "event":
-                            System.out.println("Please enter the description of the event.");
-                        case "find":
-                            System.out.println("Please enter the search description.");
-                    }
+//                    switch (keyword[0]) {
+//                        case "deadline":
+//                            System.out.println("Please enter the description of the deadline.");
+//                        case "event":
+//                            System.out.println("Please enter the description of the event.");
+//                        case "find":
+//                            System.out.println("Please enter the search description.");
+//                    }
                 }
                 break;
             }
@@ -106,10 +140,9 @@ public class Parser {
             userCommand = new Command();
 
         } catch (Exception e) { //e is a string - the exception message
-            System.out.println("Parser error.");
+            System.out.println("Parser error: ");
             System.out.println(e);
             userCommand = new Command();
-
         }
 
         return userCommand;
