@@ -3,9 +3,12 @@
 /**
  * Stores date and time information by field - day, month, year, hour, minute.
  * Allows printing of a fancy formatted date.
+ * Uses a boolean variable to indicate if the date object has been properly initialised.
  */
 
 public class Date {
+    private boolean valid;
+    private String dateAndTime;
     private int day;
     private int month;
     private int year;
@@ -13,6 +16,7 @@ public class Date {
     private String minute;
 
     public Date(String dateAndTime) {
+        this.dateAndTime = dateAndTime;
         String[] details = dateAndTime.split("[ /]");
 
         try {
@@ -21,9 +25,16 @@ public class Date {
             year = Integer.parseInt(details[2]);
             hour = Integer.parseInt(details[3].substring(0, 2));
             minute = details[3].substring(2);
+            valid = true;
         } catch (NumberFormatException e) {
             System.out.println("Sorry, that date input is not recognised.");
+            System.out.println("The date input is still saved and can be accessed.");
+            valid = false;
         }
+    }
+
+    public boolean isValid() {
+        return valid;
     }
 
     public int getDay() {
@@ -46,7 +57,7 @@ public class Date {
         return minute;
     }
 
-    public String getDayString() {
+    private String getDayString() {
         if (day > 31) {
             System.out.println("Day is invalid.");
             return null;
@@ -58,7 +69,7 @@ public class Date {
         else return Integer.toString(day) + "th";
     }
 
-    public String getMonthString() {
+    private String getMonthString() {
         switch (month) {
             case 1:
                 return "January";
@@ -90,8 +101,8 @@ public class Date {
         }
     }
 
-    public String getTimeString() {
-        if (hour > 12) {
+    private String getTimeString() {
+        if (hour > 12 && hour <= 24) {
             return Integer.toString(hour - 12) + ":" + minute + " pm";
         } else if (hour < 12) {
             return Integer.toString(hour) + ":" + minute + " am";
@@ -104,7 +115,11 @@ public class Date {
     }
 
     public String returnFormattedDate() {
-        return getDayString() + " of " + getMonthString() + " " + year + ", " + getTimeString();
+        if (valid) {
+            return getDayString() + " of " + getMonthString() + " " + year + ", " + getTimeString();
+        } else {
+            return dateAndTime;
+        }
     }
 
 }

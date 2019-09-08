@@ -62,7 +62,6 @@ public class TaskList {
      * Adds a deadline item to the list and prints a confirmation.
      *
      * @param item the description of the task.
-     * @return Nothing.
      * @throws InsufficientInfoException  If description is blank, or if the deadline is not provided.
      */
     private void addDeadlineItem(String item) throws InsufficientInfoException {
@@ -93,7 +92,6 @@ public class TaskList {
      * Adds an event item to the list and prints a confirmation.
      *
      * @param item the description of the task.
-     * @return Nothing.
      * @throws InsufficientInfoException  If description is blank, or if the event has no date.
      */
     private void addEventItem(String item) throws InsufficientInfoException {
@@ -130,9 +128,7 @@ public class TaskList {
     }
 
     /**
-     * Prints the whole list of items.
-     *
-     * @return Nothing.
+     * Prints the whole list of items with index numbers.
      */
     private void printList() {
         int max = taskList.size();
@@ -151,7 +147,6 @@ public class TaskList {
      * Deletes a task of the user's choice.
      *
      * @param i the index of the task to be deleted.
-     * @return Nothing.
      */
     private void deleteTask(int i){
         try{
@@ -177,7 +172,6 @@ public class TaskList {
      * Marks a task as done.
      *
      * @param i the index of the task to be marked as done.
-     * @return Nothing.
      */
     private void markTaskAsDone(int i) {
 
@@ -193,8 +187,6 @@ public class TaskList {
     /**
      * Prints error message if a nonexistent task index is accessed.
      * Prints the task list for user to choose again.
-     *
-     * @return Nothing.
      */
     private void printTaskNonexistent() {
         System.out.println("That task doesn't exist! Please check the available tasks again: ");
@@ -204,8 +196,6 @@ public class TaskList {
     /**
      * Allows the user to search for task descriptions that match a given string.
      * Prints the list of tasks that match. Alternatively prints a message if none are found.
-     *
-     * @return Nothing.
      */
     private void searchForTask(String search) {
         int max = taskList.size();
@@ -229,7 +219,6 @@ public class TaskList {
      * Determines what to do with the command and executes the corresponding code.
      *
      * @param listInput the array with command keyword and description.
-     * @return Nothing.
      */
     public void handleListInput(String listInput[]) {
         try {
