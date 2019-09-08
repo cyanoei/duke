@@ -39,23 +39,11 @@ public class TaskList {
      * @return Nothing.
      * @throws InsufficientInfoException  If description is blank.
      */
-    private void addTodoItem(String todoitem) throws InsufficientInfoException {
+    public void addTodoItem(String todoitem) {
         taskList.add(new Todo(todoitem, listIndex)); //Use the constructor to create a new Task. Saved index starts from 1.
         System.out.println("Todo item added: " + todoitem);
 
         setListIndex(listIndex + 1); //Increment the index
-
-//        try {
-//            String todoitem = item.substring(5);
-//
-//            if (todoitem.length() == 0) {
-//                throw new InsufficientInfoException("Sorry, the description of a Todo cannot be blank!");
-//            } else {
-//                //From here
-//            }
-//        } catch (StringIndexOutOfBoundsException e) {
-//            System.out.println("Sorry, the description of a Todo cannot be blank!");
-//        }
     }
 
     /**
@@ -64,7 +52,7 @@ public class TaskList {
      * @param item the description of the task.
      * @throws InsufficientInfoException  If description is blank, or if the deadline is not provided.
      */
-    private void addDeadlineItem(String item) throws InsufficientInfoException {
+    public void addDeadlineItem(String item) throws InsufficientInfoException {
         String[] deadline = item.split("/by ");
 
         if (deadline[0].length() == 0) {
@@ -94,7 +82,7 @@ public class TaskList {
      * @param item the description of the task.
      * @throws InsufficientInfoException  If description is blank, or if the event has no date.
      */
-    private void addEventItem(String item) throws InsufficientInfoException {
+    public void addEventItem(String item) throws InsufficientInfoException {
 
         String[] event = item.split("/at ");
 

@@ -7,11 +7,20 @@ import java.util.Scanner;
 
 public class Parser {
 
-//    private Scanner in;
-//
-//    public Parser() {
-//        this.in = new Scanner(System.in);
-//    }
+    //TODO:
+
+    private boolean isInteger(String test) {
+        try {
+            Integer.parseInt(test);  //TODO: Improve this.
+            return true;
+        } catch (NumberFormatException e){
+            return false;
+        }
+    }
+
+    //functions for each type of thing!
+
+
 
     /**
      * Checks if the command keyword (first word is valid).
@@ -22,28 +31,29 @@ public class Parser {
      * @return an array where the first item is the command word and the second item is the rest of the text.
      * @throws BadInputException If the first word is not one of the recognised commands.
      */
-    private String[] handleListInput(String listInput) throws BadInputException {
+    private Command handleListInput(String listInput) throws BadInputException {
 
         String[] keyword = listInput.split(" ", 2);
-        String[] command = new String[2];
-
-        command[0] = keyword[0]; //Assume command is correctly entered.
+        Command command;
 
         switch (keyword[0]) {
             //Commands which are single words.
             case "list":
+                command = new Command(Command.CommandType.LIST);
+                break;
             case "bye":
+                command = new Command(Command.CommandType.BYE);
                 break;
 
             //Commands which require numerical input.
             case "done":
+                if (isInteger(keyword[1])) {
+
+                }
+                break;
             case "delete": {
-                try {
-                    Integer.parseInt(keyword[1]);  //TODO: Improve this.
-                    command[1] = keyword[1];
-                } catch (NumberFormatException e){
-                    System.out.println("Please enter a valid number.");
-                    command[0] = null;
+                if (isInteger(keyword[1])) {
+
                 }
                 break;
             }
@@ -55,9 +65,9 @@ public class Parser {
             case "find": {
                 String description = keyword[1].trim(); //Might need to catch empty string exceptions?
                 if (!description.isBlank()) {
-                    command[1] = description;
+                    //command[1] = description;
                 } else {
-                    command[0] = null;
+                    //command[0] = null;
                     switch (keyword[0]) {
                         case "deadline":
                             System.out.println("Please enter the description of the deadline.");
@@ -71,7 +81,7 @@ public class Parser {
             }
 
             default:
-                command[0] = null;
+                command = new Command(); //Bad Command
                 throw new BadInputException("Sorry, I don't recognise that input keyword!");
         }
         return command;
@@ -83,26 +93,26 @@ public class Parser {
      *
      * @return an array where the first item is the command word and the second item is the rest of the text.
      */
-    public String[] parse(String userInput) {
+    public Command parse(String userInput) {
 
-        String[] command;
-        command = new String[2];
-
+        Command userCommand;
 
         //TODO: Make this a do-while that waits for a good input
         //TODO: Shift this implementation to the Ui class
         try {
-            command = handleListInput(userInput);
+            userCommand = handleListInput(userInput);
         } catch (NumberFormatException e) {
             System.out.println("Please input only an integer after the command.");
-            command[0] = null;
+            userCommand = new Command();
+
         } catch (Exception e) { //e is a string - the exception message
             System.out.println("Parser error.");
             System.out.println(e);
-            command[0] = null;
+            userCommand = new Command();
+
         }
 
-        return command;
+        return userCommand;
     }
 
 }

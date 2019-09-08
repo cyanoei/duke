@@ -7,18 +7,25 @@
 public class Command {
 
     protected enum CommandType {
-        TODO, DEADLINE, EVENT, BYE, LIST, DONE, DELETE, FIND
+        TODO, DEADLINE, EVENT, BYE, LIST, DONE, DELETE, FIND, BAD
     }
 
-    private CommandType type;
-    private String description;
+    protected CommandType type;
 
-    public Command(CommandType type, String description) {
+    //Not sure if the default constructor should be a bad command?
+    public Command() {
+        this.type = CommandType.BAD;
+    }
+
+    public Command(CommandType type) {
         this.type = type;
-        this.description = description;
     }
 
-    public void execute(TaskList list, Ui ui) { //Abstract method
+    public CommandType getType(){
+        return type;
+    }
+
+    public void execute(TaskList list, Ui ui) {
         //Abstract method
     }
 }
