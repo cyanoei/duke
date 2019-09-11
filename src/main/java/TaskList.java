@@ -98,7 +98,7 @@ public class TaskList {
      *
      * @param i the index of the task to be deleted.
      */
-    private void deleteTask(int i){
+    public void deleteTask(int i){
         try{
             Task item = taskList.get(i);
             taskList.remove(i); //The original copy is gone.
@@ -123,7 +123,7 @@ public class TaskList {
      *
      * @param i the index of the task to be marked as done.
      */
-    private void markTaskAsDone(int i) {
+    public void markTaskAsDone(int i) {
 
         try {
             taskList.get(i).markAsDone(); //Mark task as done.
@@ -147,7 +147,7 @@ public class TaskList {
      * Allows the user to search for task descriptions that match a given string.
      * Prints the list of tasks that match. Alternatively prints a message if none are found.
      */
-    private void searchForTask(String search) {
+    public void searchForTask(String search) {
         int max = taskList.size();
         boolean found = false;
 

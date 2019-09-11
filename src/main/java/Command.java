@@ -25,10 +25,12 @@ public class Command {
         return type;
     }
 
-    public void execute(TaskList list, Ui ui)  {
+    public void execute(TaskList list, Ui ui, Storage storage)  {
         if (type == CommandType.LIST) {
             list.printList();
+        } else if (type == CommandType.BYE) {
+            storage.save(list.getTaskList());
+            ui.printExitMessage();
         }
-        //Abstract method
     }
 }

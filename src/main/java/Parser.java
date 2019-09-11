@@ -37,18 +37,13 @@ public class Parser {
     private String[] addEvent(String input) throws InsufficientInfoException {
         String[] event = input.split("/at ");
 
-        //etc
-//        if (event[0].length() == 0) {
-//            throw new InsufficientInfoException("Sorry, the description of an Event cannot be blank!");
-//        } else if ((event.length < 2) || event[1].length() == 0) {
-//            throw new InsufficientInfoException("Sorry, the event must have a timeframe it happens /at.");
-//        } else {
-//            taskList.add(new Event(event[0], event[1], listIndex)); //Use the constructor to create a new Task. Saved index starts from 1.
-//            System.out.println("Event item added: " + event[0]);
-//            System.out.println("Event happens at: " + event[1]);
-//            setListIndex(listIndex + 1); //Increment the index
-//        }
-        return event;
+        if (event[0].length() == 0) {
+            throw new InsufficientInfoException("Sorry, the description of an Event cannot be blank!");
+        } else if ((event.length < 2) || event[1].length() == 0) {
+            throw new InsufficientInfoException("Sorry, the event must have a timeframe it happens /at.");
+        } else {
+            return event;
+        }
     }
     /**
      * Checks if the command keyword (first word is valid).
@@ -90,17 +85,21 @@ public class Parser {
             case "deadline": {
                 String[] temp = addDeadline(keyword[1]);
                 command = new AddCommand(Command.CommandType.DEADLINE, temp[0], temp[1]);
-            }
-            case "event":
-                command = new Command(); //TODO: elab
                 break;
+            }
+            case "event": {
+                String[] temp = addEvent(keyword[1]);
+                command = new AddCommand(Command.CommandType.EVENT, temp[0], temp[1]);
+                break;
+            }
             case "find": {
-                command = new Command();  //TODO: elab
                 String description = keyword[1].trim(); //Might need to catch empty string exceptions?
                 if (!description.isBlank()) {
-
+                    command = new FindCommand(Command.CommandType.FIND, description);
                     //command[1] = description;
                 } else {
+                    command = new Command();
+                    System.out.println("Please enter the search description.");
                     //command[0] = null;
 //                    switch (keyword[0]) {
 //                        case "deadline":

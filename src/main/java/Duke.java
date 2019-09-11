@@ -42,14 +42,10 @@ public class Duke {
             ui.printNewLine();
             userInput = ui.read();
             command = parser.parse(userInput);
-            command.execute(taskList, ui);
+            command.execute(taskList, ui, storage);
             //taskList.handleListInput(command); //Should only be passed good inputs.
         } while (command.type != Command.CommandType.BYE);
 
-        //Save tasklist.
-        storage.save(taskList.getTaskList());
-
-        ui.printExitMessage();
     }
 
     public static void main(String[] args) {
