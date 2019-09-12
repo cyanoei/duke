@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 
 public class Task {
     protected String description;
-    protected int taskIndex;
     protected boolean isDone;
     protected TaskType type;
 
@@ -20,9 +19,8 @@ public class Task {
         this.isDone = false;
     }
 
-    public Task(String description, int taskIndex, TaskType type) {
+    public Task(String description, TaskType type) {
         this.description = description;
-        this.taskIndex = taskIndex;
         this.isDone = false;
         this.type = type;
     }
@@ -33,10 +31,6 @@ public class Task {
 
     public String getStatusIcon() {
         return (isDone ? "[\u2713]" : "[\u2718]"); //return tick or X symbols
-    }
-
-    public int getTaskIndex() {
-        return this.taskIndex;
     }
 
     public boolean getIsDone() {

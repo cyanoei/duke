@@ -10,7 +10,7 @@ public class Deadline extends Task {
     private Date doByDate;
 
     public Deadline(String description, String by, int taskIndex) {
-        super(description, taskIndex, TaskType.DEADLINE); //Using the Task constructor. isDone is set to false.
+        super(description, TaskType.DEADLINE); //Using the Task constructor. isDone is set to false.
         this.doBy = by;
         this.doByDate = new Date(doBy);
     }

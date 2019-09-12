@@ -10,7 +10,7 @@ public class Event extends Task {
     private Date eventTime;
 
     public Event(String description, String start, int taskIndex) {
-        super(description, taskIndex, TaskType.EVENT); //Using the Task constructor. isDone is set to false.
+        super(description, TaskType.EVENT); //Using the Task constructor. isDone is set to false.
         this.start = start;
         this.eventTime = new Date(start);
     }
